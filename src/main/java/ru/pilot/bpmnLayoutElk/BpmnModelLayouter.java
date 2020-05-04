@@ -12,7 +12,6 @@ import org.camunda.bpm.model.bpmn.instance.di.DiagramElement;
 import org.eclipse.elk.core.util.Pair;
 import org.eclipse.elk.graph.ElkGraphElement;
 import org.eclipse.elk.graph.ElkNode;
-import org.eclipse.elk.graph.json.ElkGraphJson;
 import ru.pilot.bpmnLayoutElk.bpmn.BpmnCreater;
 import ru.pilot.bpmnLayoutElk.common.GraphConverter;
 import ru.pilot.bpmnLayoutElk.elk.ElkGraphLayouter;

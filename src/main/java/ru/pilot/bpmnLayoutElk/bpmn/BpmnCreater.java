@@ -8,11 +8,6 @@ import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 
 public class BpmnCreater {
-
-    public static void main(String[] args) throws FileNotFoundException {
-        BpmnCreater bpmnCreater = new BpmnCreater();
-        BpmnModelInstance model = bpmnCreater.getModelFromResource("C2CPushInNoDiagram.bpmn");
-    }
     
     public BpmnModelInstance getModelFromResource(String fileName) throws FileNotFoundException {
         URL resource = this.getClass().getClassLoader().getResource(fileName);

@@ -31,70 +31,12 @@
 			<artifactId>org.eclipse.elk.core</artifactId>
 			<version>0.6.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.elk/org.eclipse.elk.graph.json -->
-		<dependency>
-			<groupId>org.eclipse.elk</groupId>
-			<artifactId>org.eclipse.elk.graph.json</artifactId>
-			<version>0.6.1</version>
-		</dependency>
-		
-		
-		<!-- https://mvnrepository.com/artifact/org.eclipse.elk/org.eclipse.elk.alg.common -->
-		<dependency>
-			<groupId>org.eclipse.elk</groupId>
-			<artifactId>org.eclipse.elk.alg.common</artifactId>
-			<version>0.6.1</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.eclipse.elk/org.eclipse.elk.alg.layered -->
 		<dependency>
 			<groupId>org.eclipse.elk</groupId>
 			<artifactId>org.eclipse.elk.alg.layered</artifactId>
 			<version>0.6.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.elk/org.eclipse.elk.alg.common.compaction -->
-		<dependency>
-			<groupId>org.eclipse.elk</groupId>
-			<artifactId>org.eclipse.elk.alg.common.compaction</artifactId>
-			<version>0.3.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.elk/org.eclipse.elk.alg.packing.rectangles -->
-		<dependency>
-			<groupId>org.eclipse.elk</groupId>
-			<artifactId>org.eclipse.elk.alg.packing.rectangles</artifactId>
-			<version>0.6.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.elk/org.eclipse.elk.alg.radial -->
-		<dependency>
-			<groupId>org.eclipse.elk</groupId>
-			<artifactId>org.eclipse.elk.alg.radial</artifactId>
-			<version>0.6.1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.elk/org.eclipse.elk.alg.rectpacking -->
-		<dependency>
-			<groupId>org.eclipse.elk</groupId>
-			<artifactId>org.eclipse.elk.alg.rectpacking</artifactId>
-			<version>0.6.1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.elk/org.eclipse.elk.alg.graphviz.layouter -->
-		<dependency>
-			<groupId>org.eclipse.elk</groupId>
-			<artifactId>org.eclipse.elk.alg.graphviz.layouter</artifactId>
-			<version>0.6.1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.elk/org.eclipse.elk.alg.mrtree -->
-		<dependency>
-			<groupId>org.eclipse.elk</groupId>
-			<artifactId>org.eclipse.elk.alg.mrtree</artifactId>
-			<version>0.6.1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.elk/org.eclipse.elk.alg.force -->
-		<dependency>
-			<groupId>org.eclipse.elk</groupId>
-			<artifactId>org.eclipse.elk.alg.force</artifactId>
-			<version>0.6.1</version>
-		</dependency>
-
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

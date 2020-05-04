@@ -1,7 +1,6 @@
 package ru.pilot.bpmnLayoutElk.common;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,11 +13,7 @@ import org.camunda.bpm.model.bpmn.instance.bpmndi.BpmnShape;
 import org.camunda.bpm.model.bpmn.instance.dc.Bounds;
 import org.camunda.bpm.model.bpmn.instance.di.DiagramElement;
 import org.camunda.bpm.model.bpmn.instance.di.Waypoint;
-import org.eclipse.elk.alg.common.compaction.options.PolyominoOptions;
-import org.eclipse.elk.alg.force.options.ForceMetaDataProvider;
 import org.eclipse.elk.alg.layered.options.LayeredMetaDataProvider;
-import org.eclipse.elk.alg.mrtree.options.MrTreeMetaDataProvider;
-import org.eclipse.elk.alg.radial.options.RadialMetaDataProvider;
 import org.eclipse.elk.core.data.LayoutMetaDataService;
 import org.eclipse.elk.core.options.CoreOptions;
 import org.eclipse.elk.core.util.Pair;
@@ -115,12 +110,12 @@ public class GraphConverter {
 
     private void init() {
         LayoutMetaDataService.getInstance().registerLayoutMetaDataProviders(
-                new ForceMetaDataProvider(),
-                new LayeredMetaDataProvider(),
-                new MrTreeMetaDataProvider(),
-                new RadialMetaDataProvider(),
+                new LayeredMetaDataProvider()
+//                new ForceMetaDataProvider(),
+//                new MrTreeMetaDataProvider(),
+//                new RadialMetaDataProvider(),
 //                new StressMetaDataProvider(),
-                new PolyominoOptions()
+//                new PolyominoOptions()
 //                new DisCoMetaDataProvider(),
 //                new SporeMetaDataProvider()
         );
