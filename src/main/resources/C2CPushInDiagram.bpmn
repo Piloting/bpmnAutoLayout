@@ -1,0 +1,1410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_42800f9e-3b36-4ecc-b969-7da849750446" targetNamespace="http://camunda.org/examples">
+  <process id="C2CPushIn" name="C2CPushIn">
+    <startEvent id="start">
+      <outgoing>start-E51_GetPayeeInfoByPhone</outgoing>
+    </startEvent>
+    <serviceTask id="E51_GetPayeeInfoByPhone" name="E51_GetPayeeInfoByPhone">
+      <incoming>start-E51_GetPayeeInfoByPhone</incoming>
+      <outgoing>E51_GetPayeeInfoByPhone-CreateC04Cancellation</outgoing>
+      <outgoing>E51_GetPayeeInfoByPhone-E52_VerifyingAmountLimit</outgoing>
+    </serviceTask>
+    <sequenceFlow id="start-E51_GetPayeeInfoByPhone" name="" sourceRef="start" targetRef="E51_GetPayeeInfoByPhone">
+      <conditionExpression id="conditionExpression_33fc772c-007f-454b-831c-9acc8b318a19"/>
+    </sequenceFlow>
+    <serviceTask id="CreateC04Cancellation" name="CreateC04Cancellation">
+      <incoming>E51_GetPayeeInfoByPhone-CreateC04Cancellation</incoming>
+      <outgoing>CreateC04Cancellation-N61_1_ProcessingSendC04Result_parallel1</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E51_GetPayeeInfoByPhone-CreateC04Cancellation" name="2,3" sourceRef="E51_GetPayeeInfoByPhone" targetRef="CreateC04Cancellation">
+      <conditionExpression id="conditionExpression_92f8858a-1a2a-4e2d-99e9-ae124a43a217">2,3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E52_VerifyingAmountLimit" name="E52_VerifyingAmountLimit">
+      <incoming>E51_GetPayeeInfoByPhone-E52_VerifyingAmountLimit</incoming>
+      <outgoing>E52_VerifyingAmountLimit-E52_1_VerifyingTransferByAML</outgoing>
+      <outgoing>E52_VerifyingAmountLimit-E61_1_CreateC04Cancellation</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E51_GetPayeeInfoByPhone-E52_VerifyingAmountLimit" name="1" sourceRef="E51_GetPayeeInfoByPhone" targetRef="E52_VerifyingAmountLimit">
+      <conditionExpression id="conditionExpression_70f5d209-ffd5-4025-a61e-44695fe9da9f">1</conditionExpression>
+    </sequenceFlow>
+    <parallelGateway id="N61_1_ProcessingSendC04Result_parallel1">
+      <incoming>CreateC04Cancellation-N61_1_ProcessingSendC04Result_parallel1</incoming>
+      <outgoing>N61_1_ProcessingSendC04Result_parallel1-E60__1_ProcessingSendC04Result</outgoing>
+      <outgoing>N61_1_ProcessingSendC04Result_parallel1-E61_2_WaitingC23</outgoing>
+    </parallelGateway>
+    <sequenceFlow id="CreateC04Cancellation-N61_1_ProcessingSendC04Result_parallel1" sourceRef="CreateC04Cancellation" targetRef="N61_1_ProcessingSendC04Result_parallel1"/>
+    <receiveTask id="E60__1_ProcessingSendC04Result" name="E60__1_ProcessingSendC04Result">
+      <incoming>N61_1_ProcessingSendC04Result_parallel1-E60__1_ProcessingSendC04Result</incoming>
+      <outgoing>E60__1_ProcessingSendC04Result-E65_GoToLastNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="N61_1_ProcessingSendC04Result_parallel1-E60__1_ProcessingSendC04Result" name="1" sourceRef="N61_1_ProcessingSendC04Result_parallel1" targetRef="E60__1_ProcessingSendC04Result">
+      <conditionExpression id="conditionExpression_d8697004-7625-472a-a773-e39cac04c2e5">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E61_2_WaitingC23" name="E61_2_WaitingC23">
+      <incoming>N61_1_ProcessingSendC04Result_parallel1-E61_2_WaitingC23</incoming>
+      <outgoing>E61_2_WaitingC23-E61_3_ProcessingC23SendC24</outgoing>
+      <outgoing>E61_2_WaitingC23-E61_5_GoToNextNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="N61_1_ProcessingSendC04Result_parallel1-E61_2_WaitingC23" name="1,2,3" sourceRef="N61_1_ProcessingSendC04Result_parallel1" targetRef="E61_2_WaitingC23">
+      <conditionExpression id="conditionExpression_d1762463-ed9f-4540-bc9b-8360509b2c91">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E52_1_VerifyingTransferByAML" name="E52_1_VerifyingTransferByAML">
+      <incoming>E52_VerifyingAmountLimit-E52_1_VerifyingTransferByAML</incoming>
+      <outgoing>E52_1_VerifyingTransferByAML-E52_12_VerifyingTransferByAML</outgoing>
+      <outgoing>E52_1_VerifyingTransferByAML-E52_3_VerifyingTransferByAMLResult</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E52_VerifyingAmountLimit-E52_1_VerifyingTransferByAML" name="1" sourceRef="E52_VerifyingAmountLimit" targetRef="E52_1_VerifyingTransferByAML">
+      <conditionExpression id="conditionExpression_0c313057-9fc5-4ad8-85fa-5ab0ff3e4bdf">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E61_1_CreateC04Cancellation" name="E61_1_CreateC04Cancellation">
+      <incoming>E52_VerifyingAmountLimit-E61_1_CreateC04Cancellation</incoming>
+      <outgoing>E61_1_CreateC04Cancellation-N62_1_ProcessingSendC04Result_parallel2</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E52_VerifyingAmountLimit-E61_1_CreateC04Cancellation" name="2,3" sourceRef="E52_VerifyingAmountLimit" targetRef="E61_1_CreateC04Cancellation">
+      <conditionExpression id="conditionExpression_7ffbc79a-8c87-4a83-bde6-0e9dd55c8c3c">2,3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E65_GoToLastNode" name="E65_GoToLastNode">
+      <incoming>E60__1_ProcessingSendC04Result-E65_GoToLastNode</incoming>
+      <outgoing>E65_GoToLastNode-E72_GoToLastNode</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E60__1_ProcessingSendC04Result-E65_GoToLastNode" name="1" sourceRef="E60__1_ProcessingSendC04Result" targetRef="E65_GoToLastNode">
+      <conditionExpression id="conditionExpression_460e1c3e-9953-45a8-82af-5f1547c68240">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E61_2_2_WaitingC23" name="E61_2_2_WaitingC23">
+      <incoming>N63_1_ProcessingSendC04Result_parallel5-E61_2_2_WaitingC23</incoming>
+      <outgoing>E61_2_2_WaitingC23-E61_3_ProcessingC23SendC24</outgoing>
+      <outgoing>E61_2_2_WaitingC23-E61_5_GoToNextNode</outgoing>
+    </receiveTask>
+    <receiveTask id="E61_3_ProcessingC23SendC24" name="E61_3_ProcessingC23SendC24">
+      <incoming>E61_2_2_WaitingC23-E61_3_ProcessingC23SendC24</incoming>
+      <incoming>E61_2_1_WaitingC23-E61_3_ProcessingC23SendC24</incoming>
+      <incoming>E61_2_WaitingC23-E61_3_ProcessingC23SendC24</incoming>
+      <outgoing>E61_3_ProcessingC23SendC24-E61_4_ProcessingSendC24Result</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E61_2_2_WaitingC23-E61_3_ProcessingC23SendC24" name="1" sourceRef="E61_2_2_WaitingC23" targetRef="E61_3_ProcessingC23SendC24">
+      <conditionExpression id="conditionExpression_f214de9c-2889-4cdf-9d22-bd3d1a48cb0e">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E61_5_GoToNextNode" name="E61_5_GoToNextNode">
+      <incoming>E61_2_2_WaitingC23-E61_5_GoToNextNode</incoming>
+      <incoming>E61_2_1_WaitingC23-E61_5_GoToNextNode</incoming>
+      <incoming>E61_2_WaitingC23-E61_5_GoToNextNode</incoming>
+      <outgoing>E61_5_GoToNextNode-E61_6_GoToNextNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E61_2_2_WaitingC23-E61_5_GoToNextNode" name="t" sourceRef="E61_2_2_WaitingC23" targetRef="E61_5_GoToNextNode">
+      <conditionExpression id="conditionExpression_a75c357e-7605-4783-a763-56dc1498e652">t</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E61_2_1_WaitingC23" name="E61_2_1_WaitingC23">
+      <incoming>N62_1_ProcessingSendC04Result_parallel2-E61_2_1_WaitingC23</incoming>
+      <incoming>N62_1_ProcessingSendC04Result_parallel3-E61_2_1_WaitingC23</incoming>
+      <outgoing>E61_2_1_WaitingC23-E61_3_ProcessingC23SendC24</outgoing>
+      <outgoing>E61_2_1_WaitingC23-E61_5_GoToNextNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E61_2_1_WaitingC23-E61_3_ProcessingC23SendC24" name="1" sourceRef="E61_2_1_WaitingC23" targetRef="E61_3_ProcessingC23SendC24">
+      <conditionExpression id="conditionExpression_1bfd6096-d72b-42e1-ad4b-597e9bc7192a">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E61_2_1_WaitingC23-E61_5_GoToNextNode" name="t" sourceRef="E61_2_1_WaitingC23" targetRef="E61_5_GoToNextNode">
+      <conditionExpression id="conditionExpression_3daf4cfe-8b2e-4912-921d-7ca3140ac964">t</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E61_2_WaitingC23-E61_3_ProcessingC23SendC24" name="1" sourceRef="E61_2_WaitingC23" targetRef="E61_3_ProcessingC23SendC24">
+      <conditionExpression id="conditionExpression_35fe340e-0d2a-45a2-86b8-3ddfe8abaad3">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E61_2_WaitingC23-E61_5_GoToNextNode" name="t" sourceRef="E61_2_WaitingC23" targetRef="E61_5_GoToNextNode">
+      <conditionExpression id="conditionExpression_a404bddd-2b2b-4fb4-b5c4-6de628a40c86">t</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E52_12_VerifyingTransferByAML" name="E52_12_VerifyingTransferByAML">
+      <incoming>E52_1_VerifyingTransferByAML-E52_12_VerifyingTransferByAML</incoming>
+      <outgoing>E52_12_VerifyingTransferByAML-E52_2_VerifyingTransferByAMLResult</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E52_1_VerifyingTransferByAML-E52_12_VerifyingTransferByAML" name="3" sourceRef="E52_1_VerifyingTransferByAML" targetRef="E52_12_VerifyingTransferByAML">
+      <conditionExpression id="conditionExpression_289c0b19-699b-40f8-a711-3b1901336292">3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E52_3_VerifyingTransferByAMLResult" name="E52_3_VerifyingTransferByAMLResult">
+      <incoming>E52_1_VerifyingTransferByAML-E52_3_VerifyingTransferByAMLResult</incoming>
+      <outgoing>E52_3_VerifyingTransferByAMLResult-E53_VerifyingTransferByAntiFraud</outgoing>
+      <outgoing>E52_3_VerifyingTransferByAMLResult-E61_CreateC04Cancellation</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E52_1_VerifyingTransferByAML-E52_3_VerifyingTransferByAMLResult" name="1" sourceRef="E52_1_VerifyingTransferByAML" targetRef="E52_3_VerifyingTransferByAMLResult">
+      <conditionExpression id="conditionExpression_223c8b5f-a539-4e5d-91ea-1f8018d8ceed">1</conditionExpression>
+    </sequenceFlow>
+    <parallelGateway id="N62_1_ProcessingSendC04Result_parallel2">
+      <incoming>E61_1_CreateC04Cancellation-N62_1_ProcessingSendC04Result_parallel2</incoming>
+      <outgoing>N62_1_ProcessingSendC04Result_parallel2-E61__1_ProcessingSendC04Result</outgoing>
+      <outgoing>N62_1_ProcessingSendC04Result_parallel2-E61_2_1_WaitingC23</outgoing>
+    </parallelGateway>
+    <sequenceFlow id="E61_1_CreateC04Cancellation-N62_1_ProcessingSendC04Result_parallel2" sourceRef="E61_1_CreateC04Cancellation" targetRef="N62_1_ProcessingSendC04Result_parallel2"/>
+    <receiveTask id="E61__1_ProcessingSendC04Result" name="E61__1_ProcessingSendC04Result">
+      <incoming>N62_1_ProcessingSendC04Result_parallel2-E61__1_ProcessingSendC04Result</incoming>
+      <incoming>N62_1_ProcessingSendC04Result_parallel3-E61__1_ProcessingSendC04Result</incoming>
+      <outgoing>E61__1_ProcessingSendC04Result-E70_GoToLastNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="N62_1_ProcessingSendC04Result_parallel2-E61__1_ProcessingSendC04Result" name="1" sourceRef="N62_1_ProcessingSendC04Result_parallel2" targetRef="E61__1_ProcessingSendC04Result">
+      <conditionExpression id="conditionExpression_194b2e0e-5917-4e6d-a696-15d9f18c272a">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="N62_1_ProcessingSendC04Result_parallel2-E61_2_1_WaitingC23" name="1,2,3" sourceRef="N62_1_ProcessingSendC04Result_parallel2" targetRef="E61_2_1_WaitingC23">
+      <conditionExpression id="conditionExpression_8d2923ab-59b4-424b-b2b2-d2e036bafa0e">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E61_CreateC04Cancellation" name="E61_CreateC04Cancellation">
+      <incoming>E52_3_VerifyingTransferByAMLResult-E61_CreateC04Cancellation</incoming>
+      <incoming>E52_2_VerifyingTransferByAMLResult-E61_CreateC04Cancellation</incoming>
+      <outgoing>E61_CreateC04Cancellation-N62_1_ProcessingSendC04Result_parallel3</outgoing>
+    </serviceTask>
+    <parallelGateway id="N62_1_ProcessingSendC04Result_parallel3">
+      <incoming>E61_CreateC04Cancellation-N62_1_ProcessingSendC04Result_parallel3</incoming>
+      <outgoing>N62_1_ProcessingSendC04Result_parallel3-E61__1_ProcessingSendC04Result</outgoing>
+      <outgoing>N62_1_ProcessingSendC04Result_parallel3-E61_2_1_WaitingC23</outgoing>
+    </parallelGateway>
+    <sequenceFlow id="E61_CreateC04Cancellation-N62_1_ProcessingSendC04Result_parallel3" sourceRef="E61_CreateC04Cancellation" targetRef="N62_1_ProcessingSendC04Result_parallel3"/>
+    <sequenceFlow id="N62_1_ProcessingSendC04Result_parallel3-E61__1_ProcessingSendC04Result" name="1" sourceRef="N62_1_ProcessingSendC04Result_parallel3" targetRef="E61__1_ProcessingSendC04Result">
+      <conditionExpression id="conditionExpression_d3303acd-426f-4924-9142-012913c171a3">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="N62_1_ProcessingSendC04Result_parallel3-E61_2_1_WaitingC23" name="1,2,3" sourceRef="N62_1_ProcessingSendC04Result_parallel3" targetRef="E61_2_1_WaitingC23">
+      <conditionExpression id="conditionExpression_0186af30-8ac4-4ed5-a55e-364efa041976">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E70_GoToLastNode" name="E70_GoToLastNode">
+      <incoming>E62__1_ProcessingSendC04Result-E70_GoToLastNode</incoming>
+      <incoming>E61__1_ProcessingSendC04Result-E70_GoToLastNode</incoming>
+      <outgoing>E70_GoToLastNode-E72_GoToLastNode</outgoing>
+    </serviceTask>
+    <serviceTask id="E72_GoToLastNode" name="E72_GoToLastNode">
+      <incoming>E70_GoToLastNode-E72_GoToLastNode</incoming>
+      <incoming>E65_GoToLastNode-E72_GoToLastNode</incoming>
+      <incoming>E61_6_GoToNextNode-E72_GoToLastNode</incoming>
+      <incoming>E71_GoToLastNode-E72_GoToLastNode</incoming>
+      <outgoing>E72_GoToLastNode-finish4</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E70_GoToLastNode-E72_GoToLastNode" name="1" sourceRef="E70_GoToLastNode" targetRef="E72_GoToLastNode">
+      <conditionExpression id="conditionExpression_7a11713c-e365-4370-aa6c-4492f1a4a00b">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E65_GoToLastNode-E72_GoToLastNode" name="1" sourceRef="E65_GoToLastNode" targetRef="E72_GoToLastNode">
+      <conditionExpression id="conditionExpression_503c9316-0df7-41ba-8546-331db5a4d9cf">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E61_6_GoToNextNode" name="E61_6_GoToNextNode">
+      <incoming>E61_4_ProcessingSendC24Result-E61_6_GoToNextNode</incoming>
+      <incoming>E61_5_GoToNextNode-E61_6_GoToNextNode</incoming>
+      <outgoing>E61_6_GoToNextNode-E72_GoToLastNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E61_6_GoToNextNode-E72_GoToLastNode" name="1" sourceRef="E61_6_GoToNextNode" targetRef="E72_GoToLastNode">
+      <conditionExpression id="conditionExpression_6f6b4b23-2270-4609-b6eb-60344bc5c512">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E71_GoToLastNode" name="E71_GoToLastNode">
+      <incoming>E63__1_ProcessingSendC24Result-E71_GoToLastNode</incoming>
+      <outgoing>E71_GoToLastNode-E72_GoToLastNode</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E71_GoToLastNode-E72_GoToLastNode" name="1" sourceRef="E71_GoToLastNode" targetRef="E72_GoToLastNode">
+      <conditionExpression id="conditionExpression_47506b1d-67dd-474c-8326-dc1eb1ffcd5f">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E61_4_ProcessingSendC24Result" name="E61_4_ProcessingSendC24Result">
+      <incoming>E61_3_ProcessingC23SendC24-E61_4_ProcessingSendC24Result</incoming>
+      <outgoing>E61_4_ProcessingSendC24Result-E61_6_GoToNextNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E61_3_ProcessingC23SendC24-E61_4_ProcessingSendC24Result" name="1" sourceRef="E61_3_ProcessingC23SendC24" targetRef="E61_4_ProcessingSendC24Result">
+      <conditionExpression id="conditionExpression_79cb423a-ff38-49b9-aa0a-36e6a7e9f8c4">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E61_4_ProcessingSendC24Result-E61_6_GoToNextNode" name="1,2,3" sourceRef="E61_4_ProcessingSendC24Result" targetRef="E61_6_GoToNextNode">
+      <conditionExpression id="conditionExpression_e1e019a7-89f8-4208-af33-bf361d5a46dc">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E61_5_GoToNextNode-E61_6_GoToNextNode" name="1,2,3" sourceRef="E61_5_GoToNextNode" targetRef="E61_6_GoToNextNode">
+      <conditionExpression id="conditionExpression_8f92b967-d585-4f17-b893-a37635779cae">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E52_2_VerifyingTransferByAMLResult" name="E52_2_VerifyingTransferByAMLResult">
+      <incoming>E52_12_VerifyingTransferByAML-E52_2_VerifyingTransferByAMLResult</incoming>
+      <outgoing>E52_2_VerifyingTransferByAMLResult-E53_VerifyingTransferByAntiFraud</outgoing>
+      <outgoing>E52_2_VerifyingTransferByAMLResult-E61_CreateC04Cancellation</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E52_12_VerifyingTransferByAML-E52_2_VerifyingTransferByAMLResult" name="1,2" sourceRef="E52_12_VerifyingTransferByAML" targetRef="E52_2_VerifyingTransferByAMLResult">
+      <conditionExpression id="conditionExpression_177661eb-ae55-4e79-a594-35e4b1c773b4">1,2</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E53_VerifyingTransferByAntiFraud" name="E53_VerifyingTransferByAntiFraud">
+      <incoming>E52_3_VerifyingTransferByAMLResult-E53_VerifyingTransferByAntiFraud</incoming>
+      <incoming>E52_2_VerifyingTransferByAMLResult-E53_VerifyingTransferByAntiFraud</incoming>
+      <outgoing>E53_VerifyingTransferByAntiFraud-E54_CreateC04</outgoing>
+      <outgoing>E53_VerifyingTransferByAntiFraud-E62_CreateC04Cancellation</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E52_3_VerifyingTransferByAMLResult-E53_VerifyingTransferByAntiFraud" name="1" sourceRef="E52_3_VerifyingTransferByAMLResult" targetRef="E53_VerifyingTransferByAntiFraud">
+      <conditionExpression id="conditionExpression_aa58c63e-de42-4c6e-9919-f0011247a835">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E52_3_VerifyingTransferByAMLResult-E61_CreateC04Cancellation" name="2,3" sourceRef="E52_3_VerifyingTransferByAMLResult" targetRef="E61_CreateC04Cancellation">
+      <conditionExpression id="conditionExpression_6b03c1a8-5f64-4d9f-80f7-74274754d345">2,3</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E52_2_VerifyingTransferByAMLResult-E53_VerifyingTransferByAntiFraud" name="1" sourceRef="E52_2_VerifyingTransferByAMLResult" targetRef="E53_VerifyingTransferByAntiFraud">
+      <conditionExpression id="conditionExpression_410f9f0b-5f5f-4506-8c8d-a0750ceb11f4">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E52_2_VerifyingTransferByAMLResult-E61_CreateC04Cancellation" name="2,3" sourceRef="E52_2_VerifyingTransferByAMLResult" targetRef="E61_CreateC04Cancellation">
+      <conditionExpression id="conditionExpression_2cab6eea-c54d-41e1-bba1-8894c17e2a9c">2,3</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E62__1_ProcessingSendC04Result" name="E62__1_ProcessingSendC04Result">
+      <incoming>N63_1_ProcessingSendC04Result_parallel5-E62__1_ProcessingSendC04Result</incoming>
+      <outgoing>E62__1_ProcessingSendC04Result-E70_GoToLastNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E62__1_ProcessingSendC04Result-E70_GoToLastNode" name="1" sourceRef="E62__1_ProcessingSendC04Result" targetRef="E70_GoToLastNode">
+      <conditionExpression id="conditionExpression_4318cbb5-ab50-403f-9b9c-54b835066935">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E61__1_ProcessingSendC04Result-E70_GoToLastNode" name="1" sourceRef="E61__1_ProcessingSendC04Result" targetRef="E70_GoToLastNode">
+      <conditionExpression id="conditionExpression_44fdf06f-7241-4cc9-a602-437d52f2fccb">1</conditionExpression>
+    </sequenceFlow>
+    <endEvent id="finish4">
+      <incoming>E72_GoToLastNode-finish4</incoming>
+    </endEvent>
+    <sequenceFlow id="E72_GoToLastNode-finish4" sourceRef="E72_GoToLastNode" targetRef="finish4"/>
+    <serviceTask id="E54_CreateC04" name="E54_CreateC04">
+      <incoming>E53_VerifyingTransferByAntiFraud-E54_CreateC04</incoming>
+      <outgoing>E54_CreateC04-E54__1_ProcessingSendC04Result</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E53_VerifyingTransferByAntiFraud-E54_CreateC04" name="1" sourceRef="E53_VerifyingTransferByAntiFraud" targetRef="E54_CreateC04">
+      <conditionExpression id="conditionExpression_b5f2cf8c-46ed-4b3e-bc1b-60f23eb908c0">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E62_CreateC04Cancellation" name="E62_CreateC04Cancellation">
+      <incoming>E53_VerifyingTransferByAntiFraud-E62_CreateC04Cancellation</incoming>
+      <outgoing>E62_CreateC04Cancellation-N63_1_ProcessingSendC04Result_parallel5</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E53_VerifyingTransferByAntiFraud-E62_CreateC04Cancellation" name="2,3" sourceRef="E53_VerifyingTransferByAntiFraud" targetRef="E62_CreateC04Cancellation">
+      <conditionExpression id="conditionExpression_b9027839-0a99-4dac-b7af-9406acf83131">2,3</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E54__1_ProcessingSendC04Result" name="E54__1_ProcessingSendC04Result">
+      <incoming>E54_CreateC04-E54__1_ProcessingSendC04Result</incoming>
+      <outgoing>E54__1_ProcessingSendC04Result-E55_3_ProcessingC23</outgoing>
+      <outgoing>E54__1_ProcessingSendC04Result-E55_1_CreateC13</outgoing>
+      <outgoing>E54__1_ProcessingSendC04Result-E57_2_GoToNextNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E54_CreateC04-E54__1_ProcessingSendC04Result" name="1" sourceRef="E54_CreateC04" targetRef="E54__1_ProcessingSendC04Result">
+      <conditionExpression id="conditionExpression_060fa9ec-a466-411a-88eb-099b609a8180">1</conditionExpression>
+    </sequenceFlow>
+    <parallelGateway id="N63_1_ProcessingSendC04Result_parallel5">
+      <incoming>E62_CreateC04Cancellation-N63_1_ProcessingSendC04Result_parallel5</incoming>
+      <outgoing>N63_1_ProcessingSendC04Result_parallel5-E61_2_2_WaitingC23</outgoing>
+      <outgoing>N63_1_ProcessingSendC04Result_parallel5-E62__1_ProcessingSendC04Result</outgoing>
+    </parallelGateway>
+    <sequenceFlow id="E62_CreateC04Cancellation-N63_1_ProcessingSendC04Result_parallel5" sourceRef="E62_CreateC04Cancellation" targetRef="N63_1_ProcessingSendC04Result_parallel5"/>
+    <sequenceFlow id="N63_1_ProcessingSendC04Result_parallel5-E61_2_2_WaitingC23" name="1,2,3" sourceRef="N63_1_ProcessingSendC04Result_parallel5" targetRef="E61_2_2_WaitingC23">
+      <conditionExpression id="conditionExpression_d267da8a-9bca-49a1-8261-3313d185bdb3">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="N63_1_ProcessingSendC04Result_parallel5-E62__1_ProcessingSendC04Result" name="1" sourceRef="N63_1_ProcessingSendC04Result_parallel5" targetRef="E62__1_ProcessingSendC04Result">
+      <conditionExpression id="conditionExpression_0fea65f9-4c45-48f0-9330-76e6cbaa36fa">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E55_3_ProcessingC23" name="E55_3_ProcessingC23">
+      <incoming>E54__1_ProcessingSendC04Result-E55_3_ProcessingC23</incoming>
+      <outgoing>E55_3_ProcessingC23-E56_11_CheckCardOperation</outgoing>
+      <outgoing>E55_3_ProcessingC23-E63_CreateC24Cancellation</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E54__1_ProcessingSendC04Result-E55_3_ProcessingC23" name="1" sourceRef="E54__1_ProcessingSendC04Result" targetRef="E55_3_ProcessingC23">
+      <conditionExpression id="conditionExpression_46c7ae45-c584-4238-bdbb-8aa46d792492">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E55_1_CreateC13" name="E55_1_CreateC13">
+      <incoming>E54__1_ProcessingSendC04Result-E55_1_CreateC13</incoming>
+      <outgoing>E55_1_CreateC13-E55_5_GoToNextNode</outgoing>
+      <outgoing>E55_1_CreateC13-E55_2_ProcessingSendC13Result</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E54__1_ProcessingSendC04Result-E55_1_CreateC13" name="t" sourceRef="E54__1_ProcessingSendC04Result" targetRef="E55_1_CreateC13">
+      <conditionExpression id="conditionExpression_ac8f324e-ded8-4469-95a2-7bec6cf14ded">t</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E57_2_GoToNextNode" name="E57_2_GoToNextNode">
+      <incoming>E54__1_ProcessingSendC04Result-E57_2_GoToNextNode</incoming>
+      <outgoing>E57_2_GoToNextNode-N57_2_ReceivingMsgNSPKExecResult_parallel6</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E54__1_ProcessingSendC04Result-E57_2_GoToNextNode" name="t" sourceRef="E54__1_ProcessingSendC04Result" targetRef="E57_2_GoToNextNode">
+      <conditionExpression id="conditionExpression_b569582f-f06a-4b27-9b86-eff400e2351b">t</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E56_11_CheckCardOperation" name="E56_11_CheckCardOperation">
+      <incoming>E55_3_ProcessingC23-E56_11_CheckCardOperation</incoming>
+      <outgoing>E56_11_CheckCardOperation-E56_AccountCredited</outgoing>
+      <outgoing>E56_11_CheckCardOperation-E56_12_CardOperationRequest</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E55_3_ProcessingC23-E56_11_CheckCardOperation" name="1" sourceRef="E55_3_ProcessingC23" targetRef="E56_11_CheckCardOperation">
+      <conditionExpression id="conditionExpression_31e7c010-8c2c-4058-87e4-137df357dc63">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E63_CreateC24Cancellation" name="E63_CreateC24Cancellation">
+      <incoming>E55_3_ProcessingC23-E63_CreateC24Cancellation</incoming>
+      <outgoing>E63_CreateC24Cancellation-E63__1_ProcessingSendC24Result</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E55_3_ProcessingC23-E63_CreateC24Cancellation" name="2,3" sourceRef="E55_3_ProcessingC23" targetRef="E63_CreateC24Cancellation">
+      <conditionExpression id="conditionExpression_53a23205-507e-4ad8-8c8f-ae57ad75dd7d">2,3</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E55_2_CreateC13" name="E55_2_CreateC13">
+      <incoming>E55_2_ProcessingSendC13Result-E55_2_CreateC13</incoming>
+      <outgoing>E55_2_CreateC13-E55_5_GoToNextNode</outgoing>
+      <outgoing>E55_2_CreateC13-E55_2_ProcessingSendC13Result</outgoing>
+    </receiveTask>
+    <receiveTask id="E55_5_GoToNextNode" name="E55_5_GoToNextNode">
+      <incoming>E55_2_CreateC13-E55_5_GoToNextNode</incoming>
+      <incoming>E55_3_CreateC13-E55_5_GoToNextNode</incoming>
+      <incoming>E55_1_CreateC13-E55_5_GoToNextNode</incoming>
+      <outgoing>E55_5_GoToNextNode-E59_0_GoToNextNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E55_2_CreateC13-E55_5_GoToNextNode" name="3" sourceRef="E55_2_CreateC13" targetRef="E55_5_GoToNextNode">
+      <conditionExpression id="conditionExpression_b145339d-961c-4a69-868e-4da1d448257b">3</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E55_2_ProcessingSendC13Result" name="E55_2_ProcessingSendC13Result">
+      <incoming>E55_2_CreateC13-E55_2_ProcessingSendC13Result</incoming>
+      <incoming>E55_3_CreateC13-E55_2_ProcessingSendC13Result</incoming>
+      <incoming>E55_1_CreateC13-E55_2_ProcessingSendC13Result</incoming>
+      <outgoing>E55_2_ProcessingSendC13Result-E55_2_CreateC13</outgoing>
+      <outgoing>E55_2_ProcessingSendC13Result-E55_3_Processing_C14</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E55_2_CreateC13-E55_2_ProcessingSendC13Result" name="1" sourceRef="E55_2_CreateC13" targetRef="E55_2_ProcessingSendC13Result">
+      <conditionExpression id="conditionExpression_6ea78f1d-b786-4096-acf7-9140ebd7d071">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E55_3_CreateC13" name="E55_3_CreateC13">
+      <incoming>E55_3_Processing_C14-E55_3_CreateC13</incoming>
+      <outgoing>E55_3_CreateC13-E55_5_GoToNextNode</outgoing>
+      <outgoing>E55_3_CreateC13-E55_2_ProcessingSendC13Result</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E55_3_CreateC13-E55_5_GoToNextNode" name="3" sourceRef="E55_3_CreateC13" targetRef="E55_5_GoToNextNode">
+      <conditionExpression id="conditionExpression_e9108537-5e38-4d64-8a1d-9f63f541f727">3</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E55_3_CreateC13-E55_2_ProcessingSendC13Result" name="1" sourceRef="E55_3_CreateC13" targetRef="E55_2_ProcessingSendC13Result">
+      <conditionExpression id="conditionExpression_560c1b2a-0424-4b48-834b-1a2e81ae356e">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E55_1_CreateC13-E55_5_GoToNextNode" name="3" sourceRef="E55_1_CreateC13" targetRef="E55_5_GoToNextNode">
+      <conditionExpression id="conditionExpression_ea33ddbc-4e44-4b78-8698-12a4980fdfad">3</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E55_1_CreateC13-E55_2_ProcessingSendC13Result" name="1" sourceRef="E55_1_CreateC13" targetRef="E55_2_ProcessingSendC13Result">
+      <conditionExpression id="conditionExpression_b800bb6e-64b7-4bc9-81d3-39d769a461e1">1</conditionExpression>
+    </sequenceFlow>
+    <parallelGateway id="N57_2_ReceivingMsgNSPKExecResult_parallel6">
+      <incoming>E57_2_GoToNextNode-N57_2_ReceivingMsgNSPKExecResult_parallel6</incoming>
+      <outgoing>N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_3_ProcessingC23SendC24</outgoing>
+      <outgoing>N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_5_GoToNextNode</outgoing>
+      <outgoing>N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_31_ProcessingC23</outgoing>
+    </parallelGateway>
+    <sequenceFlow id="E57_2_GoToNextNode-N57_2_ReceivingMsgNSPKExecResult_parallel6" sourceRef="E57_2_GoToNextNode" targetRef="N57_2_ReceivingMsgNSPKExecResult_parallel6"/>
+    <receiveTask id="E57_3_ProcessingC23SendC24" name="E57_3_ProcessingC23SendC24">
+      <incoming>N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_3_ProcessingC23SendC24</incoming>
+      <outgoing>E57_3_ProcessingC23SendC24-E57_4_ProcessingSendC24Result</outgoing>
+    </receiveTask>
+    <sequenceFlow id="N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_3_ProcessingC23SendC24" name="1" sourceRef="N57_2_ReceivingMsgNSPKExecResult_parallel6" targetRef="E57_3_ProcessingC23SendC24">
+      <conditionExpression id="conditionExpression_3f87e090-ab78-4239-bd14-acdb3d798ce7">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E57_5_GoToNextNode" name="E57_5_GoToNextNode">
+      <incoming>N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_5_GoToNextNode</incoming>
+      <outgoing>E57_5_GoToNextNode-E57_6_GoToNextNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_5_GoToNextNode" name="t" sourceRef="N57_2_ReceivingMsgNSPKExecResult_parallel6" targetRef="E57_5_GoToNextNode">
+      <conditionExpression id="conditionExpression_2d081beb-3eb2-44b3-9147-d7cbe1096246">t</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E57_31_ProcessingC23" name="E57_31_ProcessingC23">
+      <incoming>N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_31_ProcessingC23</incoming>
+      <outgoing>E57_31_ProcessingC23-N57_5_ReceivedMsgC14_parallel7</outgoing>
+    </receiveTask>
+    <sequenceFlow id="N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_31_ProcessingC23" name="1" sourceRef="N57_2_ReceivingMsgNSPKExecResult_parallel6" targetRef="E57_31_ProcessingC23">
+      <conditionExpression id="conditionExpression_a37700e9-ecdd-4aca-8786-04edbd553239">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E56_AccountCredited" name="E56_AccountCredited">
+      <incoming>E56_11_CheckCardOperation-E56_AccountCredited</incoming>
+      <outgoing>E56_AccountCredited-E57_CreateC24</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E56_11_CheckCardOperation-E56_AccountCredited" name="3" sourceRef="E56_11_CheckCardOperation" targetRef="E56_AccountCredited">
+      <conditionExpression id="conditionExpression_c0e265ca-f6f9-4340-8ac2-6d0fa9687e6c">3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E56_12_CardOperationRequest" name="E56_12_CardOperationRequest">
+      <incoming>E56_11_CheckCardOperation-E56_12_CardOperationRequest</incoming>
+      <outgoing>E56_12_CardOperationRequest-E56_13_CardOperationResult</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E56_11_CheckCardOperation-E56_12_CardOperationRequest" name="1" sourceRef="E56_11_CheckCardOperation" targetRef="E56_12_CardOperationRequest">
+      <conditionExpression id="conditionExpression_1e8a472e-50a2-4226-a7fb-98a2b0d94909">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E63__1_ProcessingSendC24Result" name="E63__1_ProcessingSendC24Result">
+      <incoming>E63_CreateC24Cancellation-E63__1_ProcessingSendC24Result</incoming>
+      <outgoing>E63__1_ProcessingSendC24Result-E71_GoToLastNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E63_CreateC24Cancellation-E63__1_ProcessingSendC24Result" name="1" sourceRef="E63_CreateC24Cancellation" targetRef="E63__1_ProcessingSendC24Result">
+      <conditionExpression id="conditionExpression_cbcab77c-a5f4-4815-bb5b-7e9499aa49ef">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E57_6_GoToNextNode" name="E57_6_GoToNextNode">
+      <incoming>E57_4_ProcessingSendC24Result-E57_6_GoToNextNode</incoming>
+      <incoming>E57_5_GoToNextNode-E57_6_GoToNextNode</incoming>
+      <outgoing>E57_6_GoToNextNode-E59_0_GoToNextNode</outgoing>
+    </receiveTask>
+    <serviceTask id="E59_0_GoToNextNode" name="E59_0_GoToNextNode">
+      <incoming>E57_6_GoToNextNode-E59_0_GoToNextNode</incoming>
+      <incoming>E63_3_GoToNextNode-E59_0_GoToNextNode</incoming>
+      <incoming>E55_5_GoToNextNode-E59_0_GoToNextNode</incoming>
+      <incoming>E56_4_GoToNextNode-E59_0_GoToNextNode</incoming>
+      <incoming>E57_34_GoToNextNode-E59_0_GoToNextNode</incoming>
+      <outgoing>E59_0_GoToNextNode-E59_GoToNextNode</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E57_6_GoToNextNode-E59_0_GoToNextNode" name="1" sourceRef="E57_6_GoToNextNode" targetRef="E59_0_GoToNextNode">
+      <conditionExpression id="conditionExpression_8de8f652-ddfe-4804-988d-ac74ac9b573d">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E63_3_GoToNextNode" name="E63_3_GoToNextNode">
+      <incoming>E63_2_AppTransferCancellation-E63_3_GoToNextNode</incoming>
+      <incoming>E57_35_GoToNextNode-E63_3_GoToNextNode</incoming>
+      <outgoing>E63_3_GoToNextNode-E59_0_GoToNextNode</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E63_3_GoToNextNode-E59_0_GoToNextNode" name="1" sourceRef="E63_3_GoToNextNode" targetRef="E59_0_GoToNextNode">
+      <conditionExpression id="conditionExpression_4db44d14-f29f-420a-bc20-8e878cefd5dd">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E55_5_GoToNextNode-E59_0_GoToNextNode" name="1" sourceRef="E55_5_GoToNextNode" targetRef="E59_0_GoToNextNode">
+      <conditionExpression id="conditionExpression_43f123ee-c568-42d5-9633-831c01661550">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E56_4_GoToNextNode" name="E56_4_GoToNextNode">
+      <incoming>E56_3_AccountCreditedResult-E56_4_GoToNextNode</incoming>
+      <outgoing>E56_4_GoToNextNode-E59_0_GoToNextNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E56_4_GoToNextNode-E59_0_GoToNextNode" name="1" sourceRef="E56_4_GoToNextNode" targetRef="E59_0_GoToNextNode">
+      <conditionExpression id="conditionExpression_c3fcf605-6194-4240-bbdb-538dbea6b284">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E57_34_GoToNextNode" name="E57_34_GoToNextNode">
+      <incoming>N57_6_NeedAccountCrediting_parallel8-E57_34_GoToNextNode</incoming>
+      <outgoing>E57_34_GoToNextNode-E59_0_GoToNextNode</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E57_34_GoToNextNode-E59_0_GoToNextNode" name="1" sourceRef="E57_34_GoToNextNode" targetRef="E59_0_GoToNextNode">
+      <conditionExpression id="conditionExpression_5feb9783-7a4c-4ee9-a01a-efe7a0ed44a1">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E55_2_ProcessingSendC13Result-E55_2_CreateC13" name="t" sourceRef="E55_2_ProcessingSendC13Result" targetRef="E55_2_CreateC13">
+      <conditionExpression id="conditionExpression_e411c293-e4f2-496f-9dce-7b660d5386d7">t</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E55_3_Processing_C14" name="E55_3_Processing_C14">
+      <incoming>E55_2_ProcessingSendC13Result-E55_3_Processing_C14</incoming>
+      <outgoing>E55_3_Processing_C14-E56_11_2_CheckCardOperation</outgoing>
+      <outgoing>E55_3_Processing_C14-E55_3_CreateC13</outgoing>
+      <outgoing>E55_3_Processing_C14-E63_2_AppTransferCancellation</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E55_2_ProcessingSendC13Result-E55_3_Processing_C14" name="1" sourceRef="E55_2_ProcessingSendC13Result" targetRef="E55_3_Processing_C14">
+      <conditionExpression id="conditionExpression_f2f2ed63-a666-4f97-b8a0-1b025eeaac31">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E57_4_ProcessingSendC24Result" name="E57_4_ProcessingSendC24Result">
+      <incoming>E57_3_ProcessingC23SendC24-E57_4_ProcessingSendC24Result</incoming>
+      <incoming>E57_3_CreateC24-E57_4_ProcessingSendC24Result</incoming>
+      <outgoing>E57_4_ProcessingSendC24Result-E57_6_GoToNextNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E57_3_ProcessingC23SendC24-E57_4_ProcessingSendC24Result" name="1" sourceRef="E57_3_ProcessingC23SendC24" targetRef="E57_4_ProcessingSendC24Result">
+      <conditionExpression id="conditionExpression_fb1c4268-4ca1-4fc9-9293-ce52928bdd74">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E57_3_CreateC24" name="E57_3_CreateC24">
+      <incoming>N57_5_ReceivedMsgC14_parallel7-E57_3_CreateC24</incoming>
+      <outgoing>E57_3_CreateC24-E57_4_ProcessingSendC24Result</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E57_3_CreateC24-E57_4_ProcessingSendC24Result" name="1" sourceRef="E57_3_CreateC24" targetRef="E57_4_ProcessingSendC24Result">
+      <conditionExpression id="conditionExpression_0d9df5f9-cce1-4c25-9fd5-64736dd1fe8d">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E57_4_ProcessingSendC24Result-E57_6_GoToNextNode" name="t" sourceRef="E57_4_ProcessingSendC24Result" targetRef="E57_6_GoToNextNode">
+      <conditionExpression id="conditionExpression_0f13edaf-6124-434b-ada1-716ae13797cc">t</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E57_5_GoToNextNode-E57_6_GoToNextNode" name="t" sourceRef="E57_5_GoToNextNode" targetRef="E57_6_GoToNextNode">
+      <conditionExpression id="conditionExpression_c9e6cbc8-3e7f-44e3-b4c3-ff7928d99b03">t</conditionExpression>
+    </sequenceFlow>
+    <parallelGateway id="N57_5_ReceivedMsgC14_parallel7">
+      <incoming>E57_31_ProcessingC23-N57_5_ReceivedMsgC14_parallel7</incoming>
+      <outgoing>N57_5_ReceivedMsgC14_parallel7-E57_32_NeedAccountCrediting</outgoing>
+      <outgoing>N57_5_ReceivedMsgC14_parallel7-E57_3_CreateC24</outgoing>
+      <outgoing>N57_5_ReceivedMsgC14_parallel7-E57_35_GoToNextNode</outgoing>
+    </parallelGateway>
+    <sequenceFlow id="E57_31_ProcessingC23-N57_5_ReceivedMsgC14_parallel7" sourceRef="E57_31_ProcessingC23" targetRef="N57_5_ReceivedMsgC14_parallel7"/>
+    <serviceTask id="E57_32_NeedAccountCrediting" name="E57_32_NeedAccountCrediting">
+      <incoming>N57_5_ReceivedMsgC14_parallel7-E57_32_NeedAccountCrediting</incoming>
+      <outgoing>E57_32_NeedAccountCrediting-N57_6_NeedAccountCrediting_parallel8</outgoing>
+    </serviceTask>
+    <sequenceFlow id="N57_5_ReceivedMsgC14_parallel7-E57_32_NeedAccountCrediting" name="1" sourceRef="N57_5_ReceivedMsgC14_parallel7" targetRef="E57_32_NeedAccountCrediting">
+      <conditionExpression id="conditionExpression_039f9f53-4237-4cd6-84ad-2a22713650eb">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="N57_5_ReceivedMsgC14_parallel7-E57_3_CreateC24" name="1,2,3" sourceRef="N57_5_ReceivedMsgC14_parallel7" targetRef="E57_3_CreateC24">
+      <conditionExpression id="conditionExpression_b62459f1-78ed-432b-be09-40f84d9ddd98">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E57_35_GoToNextNode" name="E57_35_GoToNextNode">
+      <incoming>N57_5_ReceivedMsgC14_parallel7-E57_35_GoToNextNode</incoming>
+      <outgoing>E57_35_GoToNextNode-E63_3_GoToNextNode</outgoing>
+    </serviceTask>
+    <sequenceFlow id="N57_5_ReceivedMsgC14_parallel7-E57_35_GoToNextNode" name="3" sourceRef="N57_5_ReceivedMsgC14_parallel7" targetRef="E57_35_GoToNextNode">
+      <conditionExpression id="conditionExpression_79c147b4-5e74-4a9f-b2aa-87b08a853036">3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E57_CreateC24" name="E57_CreateC24">
+      <incoming>E56_AccountCredited-E57_CreateC24</incoming>
+      <incoming>E56_13_CardOperationResult-E57_CreateC24</incoming>
+      <outgoing>E57_CreateC24-E57_1_ProcessingSendC24Result</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E56_AccountCredited-E57_CreateC24" name="1,2" sourceRef="E56_AccountCredited" targetRef="E57_CreateC24">
+      <conditionExpression id="conditionExpression_d9e23e5d-405b-4d85-aa7e-fbd7ec436521">1,2</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E56_13_CardOperationResult" name="E56_13_CardOperationResult">
+      <incoming>E56_12_CardOperationRequest-E56_13_CardOperationResult</incoming>
+      <outgoing>E56_13_CardOperationResult-E57_CreateC24</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E56_13_CardOperationResult-E57_CreateC24" name="1,2" sourceRef="E56_13_CardOperationResult" targetRef="E57_CreateC24">
+      <conditionExpression id="conditionExpression_ea2ab315-8da4-462d-9f20-5f671d8f76f2">1,2</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E56_12_CardOperationRequest-E56_13_CardOperationResult" name="1,2" sourceRef="E56_12_CardOperationRequest" targetRef="E56_13_CardOperationResult">
+      <conditionExpression id="conditionExpression_2011ac95-74e4-4298-8a42-69b66629f030">1,2</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E63__1_ProcessingSendC24Result-E71_GoToLastNode" name="1" sourceRef="E63__1_ProcessingSendC24Result" targetRef="E71_GoToLastNode">
+      <conditionExpression id="conditionExpression_523e6f3a-22ab-41f8-a144-3158c18fd080">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E59_GoToNextNode" name="E59_GoToNextNode">
+      <incoming>E59_0_GoToNextNode-E59_GoToNextNode</incoming>
+      <incoming>E58_1_CheckingPrimaryDocuments-E59_GoToNextNode</incoming>
+      <outgoing>E59_GoToNextNode-finish9</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E59_0_GoToNextNode-E59_GoToNextNode" name="1" sourceRef="E59_0_GoToNextNode" targetRef="E59_GoToNextNode">
+      <conditionExpression id="conditionExpression_a53c3461-2911-4343-9252-2e5cb8681b0a">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E58_1_CheckingPrimaryDocuments" name="E58_1_CheckingPrimaryDocuments">
+      <incoming>E58_CheckingPrimaryDocuments-E58_1_CheckingPrimaryDocuments</incoming>
+      <outgoing>E58_1_CheckingPrimaryDocuments-E59_GoToNextNode</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E58_1_CheckingPrimaryDocuments-E59_GoToNextNode" name="1" sourceRef="E58_1_CheckingPrimaryDocuments" targetRef="E59_GoToNextNode">
+      <conditionExpression id="conditionExpression_4b2571b2-b3c8-4023-92f8-ffea72203bd1">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E56_11_2_CheckCardOperation" name="E56_11_2_CheckCardOperation">
+      <incoming>E55_3_Processing_C14-E56_11_2_CheckCardOperation</incoming>
+      <outgoing>E56_11_2_CheckCardOperation-E55_4_AccountCredited</outgoing>
+      <outgoing>E56_11_2_CheckCardOperation-E56_12_2_CardOperationRequest</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E55_3_Processing_C14-E56_11_2_CheckCardOperation" name="1" sourceRef="E55_3_Processing_C14" targetRef="E56_11_2_CheckCardOperation">
+      <conditionExpression id="conditionExpression_5b7f939a-9205-478b-a718-9192db6d68ce">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E55_3_Processing_C14-E55_3_CreateC13" name="t" sourceRef="E55_3_Processing_C14" targetRef="E55_3_CreateC13">
+      <conditionExpression id="conditionExpression_7d8dbcd7-11cb-4a94-8486-f61701495c1e">t</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E63_2_AppTransferCancellation" name="E63_2_AppTransferCancellation">
+      <incoming>E55_3_Processing_C14-E63_2_AppTransferCancellation</incoming>
+      <outgoing>E63_2_AppTransferCancellation-E63_3_GoToNextNode</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E55_3_Processing_C14-E63_2_AppTransferCancellation" name="3" sourceRef="E55_3_Processing_C14" targetRef="E63_2_AppTransferCancellation">
+      <conditionExpression id="conditionExpression_d39c00ce-7f2b-4595-8133-ebd0f550b180">3</conditionExpression>
+    </sequenceFlow>
+    <parallelGateway id="N57_6_NeedAccountCrediting_parallel8">
+      <incoming>E57_32_NeedAccountCrediting-N57_6_NeedAccountCrediting_parallel8</incoming>
+      <outgoing>N57_6_NeedAccountCrediting_parallel8-E56_11_3_CheckCardOperation</outgoing>
+      <outgoing>N57_6_NeedAccountCrediting_parallel8-E57_33_GoToNextNode</outgoing>
+      <outgoing>N57_6_NeedAccountCrediting_parallel8-E57_34_GoToNextNode</outgoing>
+    </parallelGateway>
+    <sequenceFlow id="E57_32_NeedAccountCrediting-N57_6_NeedAccountCrediting_parallel8" sourceRef="E57_32_NeedAccountCrediting" targetRef="N57_6_NeedAccountCrediting_parallel8"/>
+    <serviceTask id="E56_11_3_CheckCardOperation" name="E56_11_3_CheckCardOperation">
+      <incoming>N57_6_NeedAccountCrediting_parallel8-E56_11_3_CheckCardOperation</incoming>
+      <outgoing>E56_11_3_CheckCardOperation-E55_4_AccountCredited</outgoing>
+      <outgoing>E56_11_3_CheckCardOperation-E56_12_2_CardOperationRequest</outgoing>
+    </serviceTask>
+    <sequenceFlow id="N57_6_NeedAccountCrediting_parallel8-E56_11_3_CheckCardOperation" name="1" sourceRef="N57_6_NeedAccountCrediting_parallel8" targetRef="E56_11_3_CheckCardOperation">
+      <conditionExpression id="conditionExpression_37214149-1143-48b1-85a3-559f1566fbcb">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E57_33_GoToNextNode" name="E57_33_GoToNextNode">
+      <incoming>N57_6_NeedAccountCrediting_parallel8-E57_33_GoToNextNode</incoming>
+      <outgoing>E57_33_GoToNextNode-E56_2_ReceivedAccountCreditedResult</outgoing>
+    </serviceTask>
+    <sequenceFlow id="N57_6_NeedAccountCrediting_parallel8-E57_33_GoToNextNode" name="1" sourceRef="N57_6_NeedAccountCrediting_parallel8" targetRef="E57_33_GoToNextNode">
+      <conditionExpression id="conditionExpression_ca142169-f75b-49aa-9fcd-6a18616556d9">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="N57_6_NeedAccountCrediting_parallel8-E57_34_GoToNextNode" name="3" sourceRef="N57_6_NeedAccountCrediting_parallel8" targetRef="E57_34_GoToNextNode">
+      <conditionExpression id="conditionExpression_f4f358e3-a607-4df4-8122-9463e2583c28">3</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E63_2_AppTransferCancellation-E63_3_GoToNextNode" name="1" sourceRef="E63_2_AppTransferCancellation" targetRef="E63_3_GoToNextNode">
+      <conditionExpression id="conditionExpression_11a3f7c0-1291-476d-b0dd-d5ec6d755469">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E57_35_GoToNextNode-E63_3_GoToNextNode" name="1" sourceRef="E57_35_GoToNextNode" targetRef="E63_3_GoToNextNode">
+      <conditionExpression id="conditionExpression_f59b97ca-3241-4d33-ba43-13e966686f5b">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E57_1_ProcessingSendC24Result" name="E57_1_ProcessingSendC24Result">
+      <incoming>E57_CreateC24-E57_1_ProcessingSendC24Result</incoming>
+      <outgoing>E57_1_ProcessingSendC24Result-E57_20_IncompleteDocExecute</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E57_CreateC24-E57_1_ProcessingSendC24Result" name="1" sourceRef="E57_CreateC24" targetRef="E57_1_ProcessingSendC24Result">
+      <conditionExpression id="conditionExpression_fe2aebdb-0014-4faf-92dd-f74ec143a578">1</conditionExpression>
+    </sequenceFlow>
+    <endEvent id="finish9">
+      <incoming>E59_GoToNextNode-finish9</incoming>
+    </endEvent>
+    <sequenceFlow id="E59_GoToNextNode-finish9" sourceRef="E59_GoToNextNode" targetRef="finish9"/>
+    <serviceTask id="E55_4_AccountCredited" name="E55_4_AccountCredited">
+      <incoming>E56_11_2_CheckCardOperation-E55_4_AccountCredited</incoming>
+      <incoming>E56_11_3_CheckCardOperation-E55_4_AccountCredited</incoming>
+      <outgoing>E55_4_AccountCredited-E56_2_ReceivedAccountCreditedResult</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E56_11_2_CheckCardOperation-E55_4_AccountCredited" name="3" sourceRef="E56_11_2_CheckCardOperation" targetRef="E55_4_AccountCredited">
+      <conditionExpression id="conditionExpression_05a1b409-4f6a-48a2-9a8f-014f4653aab8">3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E56_12_2_CardOperationRequest" name="E56_12_2_CardOperationRequest">
+      <incoming>E56_11_2_CheckCardOperation-E56_12_2_CardOperationRequest</incoming>
+      <incoming>E56_11_3_CheckCardOperation-E56_12_2_CardOperationRequest</incoming>
+      <outgoing>E56_12_2_CardOperationRequest-E56_13_2_CardOperationResult</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E56_11_2_CheckCardOperation-E56_12_2_CardOperationRequest" name="1" sourceRef="E56_11_2_CheckCardOperation" targetRef="E56_12_2_CardOperationRequest">
+      <conditionExpression id="conditionExpression_f5bae07d-c17b-4384-b478-7b04a4c7dbd1">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E56_11_3_CheckCardOperation-E55_4_AccountCredited" name="3" sourceRef="E56_11_3_CheckCardOperation" targetRef="E55_4_AccountCredited">
+      <conditionExpression id="conditionExpression_6b94aea9-0b3f-4098-8d6d-1a9716902731">3</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E56_11_3_CheckCardOperation-E56_12_2_CardOperationRequest" name="1" sourceRef="E56_11_3_CheckCardOperation" targetRef="E56_12_2_CardOperationRequest">
+      <conditionExpression id="conditionExpression_03a07108-953d-4e73-b2b7-bc580bf344f1">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E56_2_ReceivedAccountCreditedResult" name="E56_2_ReceivedAccountCreditedResult">
+      <incoming>E55_4_AccountCredited-E56_2_ReceivedAccountCreditedResult</incoming>
+      <incoming>E57_33_GoToNextNode-E56_2_ReceivedAccountCreditedResult</incoming>
+      <incoming>E56_13_2_CardOperationResult-E56_2_ReceivedAccountCreditedResult</incoming>
+      <outgoing>E56_2_ReceivedAccountCreditedResult-E56_3_AccountCreditedResult</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E55_4_AccountCredited-E56_2_ReceivedAccountCreditedResult" name="1,2,3" sourceRef="E55_4_AccountCredited" targetRef="E56_2_ReceivedAccountCreditedResult">
+      <conditionExpression id="conditionExpression_434c22f8-4d80-48a8-b5f7-689c513de00f">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E57_33_GoToNextNode-E56_2_ReceivedAccountCreditedResult" name="1,2,3" sourceRef="E57_33_GoToNextNode" targetRef="E56_2_ReceivedAccountCreditedResult">
+      <conditionExpression id="conditionExpression_71c3009a-f487-4362-8297-025ad556e74b">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E56_13_2_CardOperationResult" name="E56_13_2_CardOperationResult">
+      <incoming>E56_12_2_CardOperationRequest-E56_13_2_CardOperationResult</incoming>
+      <outgoing>E56_13_2_CardOperationResult-E56_2_ReceivedAccountCreditedResult</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E56_13_2_CardOperationResult-E56_2_ReceivedAccountCreditedResult" name="1,2,3" sourceRef="E56_13_2_CardOperationResult" targetRef="E56_2_ReceivedAccountCreditedResult">
+      <conditionExpression id="conditionExpression_f159ac20-e041-4fc1-976e-84e253b0be55">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E57_20_IncompleteDocExecute" name="E57_20_IncompleteDocExecute">
+      <incoming>E57_1_ProcessingSendC24Result-E57_20_IncompleteDocExecute</incoming>
+      <outgoing>E57_20_IncompleteDocExecute-E58_0_CheckingHoldDocumentCreation</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E57_1_ProcessingSendC24Result-E57_20_IncompleteDocExecute" name="1,2,3" sourceRef="E57_1_ProcessingSendC24Result" targetRef="E57_20_IncompleteDocExecute">
+      <conditionExpression id="conditionExpression_1bc74955-5617-4546-952d-9218a32ea216">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E56_12_2_CardOperationRequest-E56_13_2_CardOperationResult" name="1,2" sourceRef="E56_12_2_CardOperationRequest" targetRef="E56_13_2_CardOperationResult">
+      <conditionExpression id="conditionExpression_4d22d864-075a-43d3-a71b-5c14ddf0cf8c">1,2</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E56_3_AccountCreditedResult" name="E56_3_AccountCreditedResult">
+      <incoming>E56_2_ReceivedAccountCreditedResult-E56_3_AccountCreditedResult</incoming>
+      <outgoing>E56_3_AccountCreditedResult-E56_4_GoToNextNode</outgoing>
+      <outgoing>E56_3_AccountCreditedResult-E56_4_StopAppTransferProcessing</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E56_2_ReceivedAccountCreditedResult-E56_3_AccountCreditedResult" name="1,2,3" sourceRef="E56_2_ReceivedAccountCreditedResult" targetRef="E56_3_AccountCreditedResult">
+      <conditionExpression id="conditionExpression_63aa1466-df7b-49c7-82a9-7a512d01bf31">1,2,3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E58_0_CheckingHoldDocumentCreation" name="E58_0_CheckingHoldDocumentCreation">
+      <incoming>E57_20_IncompleteDocExecute-E58_0_CheckingHoldDocumentCreation</incoming>
+      <outgoing>E58_0_CheckingHoldDocumentCreation-E58_CheckingPrimaryDocuments</outgoing>
+      <outgoing>E58_0_CheckingHoldDocumentCreation-E64_StopAppTransferProcessing</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E57_20_IncompleteDocExecute-E58_0_CheckingHoldDocumentCreation" name="1" sourceRef="E57_20_IncompleteDocExecute" targetRef="E58_0_CheckingHoldDocumentCreation">
+      <conditionExpression id="conditionExpression_5c7b48b2-d4e5-4111-a707-dd915d67dffb">1</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="E56_3_AccountCreditedResult-E56_4_GoToNextNode" name="1" sourceRef="E56_3_AccountCreditedResult" targetRef="E56_4_GoToNextNode">
+      <conditionExpression id="conditionExpression_965c8cd8-c178-42bc-b2ba-e903305985d0">1</conditionExpression>
+    </sequenceFlow>
+    <receiveTask id="E56_4_StopAppTransferProcessing" name="E56_4_StopAppTransferProcessing">
+      <incoming>E56_3_AccountCreditedResult-E56_4_StopAppTransferProcessing</incoming>
+      <outgoing>E56_4_StopAppTransferProcessing-finish11</outgoing>
+    </receiveTask>
+    <sequenceFlow id="E56_3_AccountCreditedResult-E56_4_StopAppTransferProcessing" name="2,3" sourceRef="E56_3_AccountCreditedResult" targetRef="E56_4_StopAppTransferProcessing">
+      <conditionExpression id="conditionExpression_1532c29a-82aa-4385-83f1-4f0f5b605cbd">2,3</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E58_CheckingPrimaryDocuments" name="E58_CheckingPrimaryDocuments">
+      <incoming>E58_0_CheckingHoldDocumentCreation-E58_CheckingPrimaryDocuments</incoming>
+      <outgoing>E58_CheckingPrimaryDocuments-E58_1_CheckingPrimaryDocuments</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E58_0_CheckingHoldDocumentCreation-E58_CheckingPrimaryDocuments" name="1" sourceRef="E58_0_CheckingHoldDocumentCreation" targetRef="E58_CheckingPrimaryDocuments">
+      <conditionExpression id="conditionExpression_bc58ac3a-0e8e-483c-97bd-33ec38785243">1</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="E64_StopAppTransferProcessing" name="E64_StopAppTransferProcessing">
+      <incoming>E58_0_CheckingHoldDocumentCreation-E64_StopAppTransferProcessing</incoming>
+      <outgoing>E64_StopAppTransferProcessing-finish10</outgoing>
+    </serviceTask>
+    <sequenceFlow id="E58_0_CheckingHoldDocumentCreation-E64_StopAppTransferProcessing" name="2,3" sourceRef="E58_0_CheckingHoldDocumentCreation" targetRef="E64_StopAppTransferProcessing">
+      <conditionExpression id="conditionExpression_8b46e99b-436f-4d2c-9902-a2de1f9e6c08">2,3</conditionExpression>
+    </sequenceFlow>
+    <endEvent id="finish10">
+      <incoming>E64_StopAppTransferProcessing-finish10</incoming>
+    </endEvent>
+    <sequenceFlow id="E64_StopAppTransferProcessing-finish10" sourceRef="E64_StopAppTransferProcessing" targetRef="finish10"/>
+    <endEvent id="finish11">
+      <incoming>E56_4_StopAppTransferProcessing-finish11</incoming>
+    </endEvent>
+    <sequenceFlow id="E56_4_StopAppTransferProcessing-finish11" sourceRef="E56_4_StopAppTransferProcessing" targetRef="finish11"/>
+    <sequenceFlow id="E58_CheckingPrimaryDocuments-E58_1_CheckingPrimaryDocuments" name="1" sourceRef="E58_CheckingPrimaryDocuments" targetRef="E58_1_CheckingPrimaryDocuments">
+      <conditionExpression id="conditionExpression_e735c4d2-5d1b-4a18-b7fc-f1972405b378">1</conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_b1771bed-416f-4f66-b5c3-6974e73a58d7">
+    <bpmndi:BPMNPlane bpmnElement="C2CPushIn" id="BPMNPlane_7a77f4a7-e870-4aba-afcc-45719de079f9">
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_efcea8a8-caf2-4f93-9777-f59f30353c8b">
+        <dc:Bounds height="36.0" width="36.0" x="200.0" y="200.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E51_GetPayeeInfoByPhone" id="BPMNShape_1ab4729d-e5ac-4cda-b8c3-1bc5d4acd944">
+        <dc:Bounds height="80.0" width="100.0" x="360.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="CreateC04Cancellation" id="BPMNShape_0db2fafd-b219-4d90-8167-308fb4ee8a17">
+        <dc:Bounds height="80.0" width="100.0" x="540.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E52_VerifyingAmountLimit" id="BPMNShape_5f3bfffb-51c5-4ca6-b7e4-b592677a2c2e">
+        <dc:Bounds height="80.0" width="100.0" x="540.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="N61_1_ProcessingSendC04Result_parallel1" id="BPMNShape_b70ce472-d53a-4a11-852f-99afcc474317">
+        <dc:Bounds height="50.0" width="50.0" x="720.0" y="195.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E52_1_VerifyingTransferByAML" id="BPMNShape_7b1be9ee-75af-4f0e-abd8-a7b2393c98ad">
+        <dc:Bounds height="80.0" width="100.0" x="720.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E61_1_CreateC04Cancellation" id="BPMNShape_501a397e-5215-4f5d-9a23-3c3f861c8629">
+        <dc:Bounds height="80.0" width="100.0" x="720.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E60__1_ProcessingSendC04Result" id="BPMNShape_7bdfff2c-96af-4ddf-857d-dbf6a188c7db">
+        <dc:Bounds height="80.0" width="100.0" x="900.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E61_2_WaitingC23" id="BPMNShape_7885345f-71bd-4078-bd0a-0878b68894db">
+        <dc:Bounds height="80.0" width="100.0" x="900.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E52_12_VerifyingTransferByAML" id="BPMNShape_e8ba088d-dc82-450b-bb47-222dc82b3431">
+        <dc:Bounds height="80.0" width="100.0" x="900.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E52_3_VerifyingTransferByAMLResult" id="BPMNShape_a89bad82-5e1d-4002-b0c6-53a5701abc2b">
+        <dc:Bounds height="80.0" width="100.0" x="900.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="N62_1_ProcessingSendC04Result_parallel2" id="BPMNShape_66fef752-3506-4279-8d41-546e0b0dc4e0">
+        <dc:Bounds height="50.0" width="50.0" x="900.0" y="595.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E65_GoToLastNode" id="BPMNShape_2a117b97-d2d3-40c8-a667-c72665cf59b0">
+        <dc:Bounds height="80.0" width="100.0" x="1080.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E61_3_ProcessingC23SendC24" id="BPMNShape_4bf17bc4-8fea-4647-8900-ea060300d7de">
+        <dc:Bounds height="80.0" width="100.0" x="1080.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E61_5_GoToNextNode" id="BPMNShape_fe9a2a6d-79c0-48a4-b0c4-ced38afcb02a">
+        <dc:Bounds height="80.0" width="100.0" x="1080.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E52_2_VerifyingTransferByAMLResult" id="BPMNShape_1b82a848-fea6-480c-a0ec-191eb3dc3e63">
+        <dc:Bounds height="80.0" width="100.0" x="1080.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E53_VerifyingTransferByAntiFraud" id="BPMNShape_c4adf4b4-c9ee-49b8-b374-433541627343">
+        <dc:Bounds height="80.0" width="100.0" x="1080.0" y="780.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E61_CreateC04Cancellation" id="BPMNShape_fef726d2-2377-4a5b-9194-8dbf1005f787">
+        <dc:Bounds height="80.0" width="100.0" x="1080.0" y="980.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E61__1_ProcessingSendC04Result" id="BPMNShape_1969ff7b-46a4-46fa-950a-b9fc1df8708d">
+        <dc:Bounds height="80.0" width="100.0" x="1080.0" y="980.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E61_2_1_WaitingC23" id="BPMNShape_0d020f63-a514-4828-b599-4638d9fb5a24">
+        <dc:Bounds height="80.0" width="100.0" x="1080.0" y="1180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E72_GoToLastNode" id="BPMNShape_66ede984-6b23-4329-b2e2-a162a629eef2">
+        <dc:Bounds height="80.0" width="100.0" x="1260.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E61_4_ProcessingSendC24Result" id="BPMNShape_d0926456-afc1-424c-9613-59e7549faaed">
+        <dc:Bounds height="80.0" width="100.0" x="1260.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E61_6_GoToNextNode" id="BPMNShape_0b50859e-209f-43cb-b387-464435126aef">
+        <dc:Bounds height="80.0" width="100.0" x="1260.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E54_CreateC04" id="BPMNShape_ab9fa9c6-7653-4260-a721-f3696aceec15">
+        <dc:Bounds height="80.0" width="100.0" x="1260.0" y="980.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E62_CreateC04Cancellation" id="BPMNShape_999006bf-564e-4771-98e9-25992b6a921f">
+        <dc:Bounds height="80.0" width="100.0" x="1260.0" y="1180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="N62_1_ProcessingSendC04Result_parallel3" id="BPMNShape_874d8852-eb9a-4b10-8ea6-1146337ce744">
+        <dc:Bounds height="50.0" width="50.0" x="1260.0" y="1195.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E70_GoToLastNode" id="BPMNShape_479433bd-3c51-4c73-8e81-34b5f635f97d">
+        <dc:Bounds height="80.0" width="100.0" x="1260.0" y="1380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="finish4" id="BPMNShape_46e873d3-87d1-4265-b7a1-1ca3013fc4d7">
+        <dc:Bounds height="36.0" width="36.0" x="1390.0" y="200.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E54__1_ProcessingSendC04Result" id="BPMNShape_062a8e30-4897-4957-9f8f-91a657a68a1f">
+        <dc:Bounds height="80.0" width="100.0" x="1440.0" y="780.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="N63_1_ProcessingSendC04Result_parallel5" id="BPMNShape_b0d2c478-b57c-4d60-a744-3312b8fe8bfd">
+        <dc:Bounds height="50.0" width="50.0" x="1440.0" y="995.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E55_3_ProcessingC23" id="BPMNShape_7fe41c06-c230-428d-995c-0de2aaedc611">
+        <dc:Bounds height="80.0" width="100.0" x="1620.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E55_1_CreateC13" id="BPMNShape_f7a80440-bb93-450a-b450-475ef5aa1275">
+        <dc:Bounds height="80.0" width="100.0" x="1620.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_2_GoToNextNode" id="BPMNShape_5f231bf5-d1e9-485e-88d9-ad5280459423">
+        <dc:Bounds height="80.0" width="100.0" x="1620.0" y="780.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E61_2_2_WaitingC23" id="BPMNShape_e8f30b9f-4305-4467-a8ac-e6c813268317">
+        <dc:Bounds height="80.0" width="100.0" x="1620.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E62__1_ProcessingSendC04Result" id="BPMNShape_7a2f0725-7752-4e4d-b9fd-d5f34721e6de">
+        <dc:Bounds height="80.0" width="100.0" x="1620.0" y="780.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_11_CheckCardOperation" id="BPMNShape_b7be1fff-f13e-4469-b11e-2b82d7a2ca7b">
+        <dc:Bounds height="80.0" width="100.0" x="1800.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E63_CreateC24Cancellation" id="BPMNShape_7de4493f-6219-4153-87f7-4d56e9fd4ccc">
+        <dc:Bounds height="80.0" width="100.0" x="1800.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E55_5_GoToNextNode" id="BPMNShape_2a308e86-406e-48c2-8393-71e99f89fe5d">
+        <dc:Bounds height="80.0" width="100.0" x="1800.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E55_2_ProcessingSendC13Result" id="BPMNShape_7f81115d-bbec-4282-8fca-61ed542a2896">
+        <dc:Bounds height="80.0" width="100.0" x="1800.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="N57_2_ReceivingMsgNSPKExecResult_parallel6" id="BPMNShape_289e5458-0de2-4a56-b823-635a6a7346e1">
+        <dc:Bounds height="50.0" width="50.0" x="1800.0" y="595.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_AccountCredited" id="BPMNShape_9e08008f-4da0-4f1f-9dcf-65c998e7e0f6">
+        <dc:Bounds height="80.0" width="100.0" x="1980.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_12_CardOperationRequest" id="BPMNShape_ebc2b272-5558-4008-8f46-21fea0831577">
+        <dc:Bounds height="80.0" width="100.0" x="1980.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E63__1_ProcessingSendC24Result" id="BPMNShape_9295b6c0-92ff-49f5-bbfd-0e366f260211">
+        <dc:Bounds height="80.0" width="100.0" x="1980.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E59_0_GoToNextNode" id="BPMNShape_e0b009f3-ee39-474a-b2e8-ce04ca5b3744">
+        <dc:Bounds height="80.0" width="100.0" x="1980.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E55_2_CreateC13" id="BPMNShape_a5b7540f-ba49-4dc2-92ac-462abebd42b8">
+        <dc:Bounds height="80.0" width="100.0" x="1980.0" y="780.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E55_3_Processing_C14" id="BPMNShape_64d074bb-7661-482d-89f0-15d226c84367">
+        <dc:Bounds height="80.0" width="100.0" x="1980.0" y="980.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_3_ProcessingC23SendC24" id="BPMNShape_7cb2675f-9ee6-4765-99db-78f074a38d26">
+        <dc:Bounds height="80.0" width="100.0" x="1980.0" y="980.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_5_GoToNextNode" id="BPMNShape_d9c66584-00b5-4d2c-8927-4b21f992cef6">
+        <dc:Bounds height="80.0" width="100.0" x="1980.0" y="1180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_31_ProcessingC23" id="BPMNShape_bf2c3d43-4c97-401b-8a89-537ff1cd1889">
+        <dc:Bounds height="80.0" width="100.0" x="1980.0" y="1380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_CreateC24" id="BPMNShape_aa365671-5672-4150-bc48-889b0954b88f">
+        <dc:Bounds height="80.0" width="100.0" x="2160.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_13_CardOperationResult" id="BPMNShape_483307a4-0772-4d1e-a930-5931fbe7b4a1">
+        <dc:Bounds height="80.0" width="100.0" x="2160.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E71_GoToLastNode" id="BPMNShape_1eff3871-4d80-4a44-8944-1f5e1b66e1a5">
+        <dc:Bounds height="80.0" width="100.0" x="2160.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E59_GoToNextNode" id="BPMNShape_249138e0-9c46-4ced-a832-08fd4ea50538">
+        <dc:Bounds height="80.0" width="100.0" x="2160.0" y="780.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_11_2_CheckCardOperation" id="BPMNShape_a4b1c369-0928-40dd-91a0-ea43fe45beed">
+        <dc:Bounds height="80.0" width="100.0" x="2160.0" y="1180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E55_3_CreateC13" id="BPMNShape_04a5745c-1391-4043-8716-b23966c03e1a">
+        <dc:Bounds height="80.0" width="100.0" x="2160.0" y="1380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E63_2_AppTransferCancellation" id="BPMNShape_46e19a2f-45a4-49f2-a58d-d41dbc299d9c">
+        <dc:Bounds height="80.0" width="100.0" x="2160.0" y="1580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_4_ProcessingSendC24Result" id="BPMNShape_0afd4ded-4ab5-43eb-8198-260f46c081c3">
+        <dc:Bounds height="80.0" width="100.0" x="2160.0" y="1380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_6_GoToNextNode" id="BPMNShape_3ced8337-8a43-44cf-97d1-8840e32d68eb">
+        <dc:Bounds height="80.0" width="100.0" x="2160.0" y="1580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="N57_5_ReceivedMsgC14_parallel7" id="BPMNShape_d6959867-20be-4a09-9f22-bc424d769e8f">
+        <dc:Bounds height="50.0" width="50.0" x="2160.0" y="1795.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_1_ProcessingSendC24Result" id="BPMNShape_41c86293-6b6b-4c0e-ba1b-e0f2ee533e62">
+        <dc:Bounds height="80.0" width="100.0" x="2340.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="finish9" id="BPMNShape_17467aa7-8c37-4a78-bd62-77a8de5b97fb">
+        <dc:Bounds height="36.0" width="36.0" x="2290.0" y="800.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E55_4_AccountCredited" id="BPMNShape_1f5fd15a-22cb-4f32-946c-0abc8b23c5fb">
+        <dc:Bounds height="80.0" width="100.0" x="2340.0" y="980.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_12_2_CardOperationRequest" id="BPMNShape_27f1eaae-0d58-4238-a9bb-b72e2693b9b8">
+        <dc:Bounds height="80.0" width="100.0" x="2340.0" y="1180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E63_3_GoToNextNode" id="BPMNShape_7d523e16-d939-440e-82a6-5749beb26f61">
+        <dc:Bounds height="80.0" width="100.0" x="2340.0" y="1380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_32_NeedAccountCrediting" id="BPMNShape_09cfd8ed-0346-4f7f-806e-f967a4ad8c0f">
+        <dc:Bounds height="80.0" width="100.0" x="2340.0" y="1980.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_3_CreateC24" id="BPMNShape_599628b6-7476-458a-b349-34f000f48ac2">
+        <dc:Bounds height="80.0" width="100.0" x="2340.0" y="2180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_35_GoToNextNode" id="BPMNShape_1fb5bb51-16ad-4e83-bfcf-556fae17294c">
+        <dc:Bounds height="80.0" width="100.0" x="2340.0" y="2380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_20_IncompleteDocExecute" id="BPMNShape_d64c314d-97b8-401f-b324-4112f56bfc2d">
+        <dc:Bounds height="80.0" width="100.0" x="2520.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_2_ReceivedAccountCreditedResult" id="BPMNShape_374abea0-2bf0-4c2f-b6b7-b36a910e1b1a">
+        <dc:Bounds height="80.0" width="100.0" x="2520.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_13_2_CardOperationResult" id="BPMNShape_b597f61a-df96-4988-bf5b-fc340079f071">
+        <dc:Bounds height="80.0" width="100.0" x="2520.0" y="780.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="N57_6_NeedAccountCrediting_parallel8" id="BPMNShape_de11c231-7029-474b-9317-6e9d227721f6">
+        <dc:Bounds height="50.0" width="50.0" x="2520.0" y="1195.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E58_0_CheckingHoldDocumentCreation" id="BPMNShape_cc9edb10-13ab-4b41-a163-24670ab306eb">
+        <dc:Bounds height="80.0" width="100.0" x="2700.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_3_AccountCreditedResult" id="BPMNShape_a4fe03c8-6506-4f8d-86eb-dcd19795ed68">
+        <dc:Bounds height="80.0" width="100.0" x="2700.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_11_3_CheckCardOperation" id="BPMNShape_7f04dca0-70b4-421b-9dd1-a1cb54944a3d">
+        <dc:Bounds height="80.0" width="100.0" x="2700.0" y="780.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_33_GoToNextNode" id="BPMNShape_74591656-b740-4deb-8f2a-71fc2cf61580">
+        <dc:Bounds height="80.0" width="100.0" x="2700.0" y="980.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E57_34_GoToNextNode" id="BPMNShape_b1f217f9-23b5-4437-9fb3-243d09449a72">
+        <dc:Bounds height="80.0" width="100.0" x="2700.0" y="1180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E58_CheckingPrimaryDocuments" id="BPMNShape_4960e604-a8e8-4fbe-a88f-ce9f7453442f">
+        <dc:Bounds height="80.0" width="100.0" x="2880.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E64_StopAppTransferProcessing" id="BPMNShape_93f5f52c-a135-4de4-8685-247aaeddb821">
+        <dc:Bounds height="80.0" width="100.0" x="2880.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_4_GoToNextNode" id="BPMNShape_ce2b4d5b-b5f8-497c-ae5b-ec9e4ee1ab08">
+        <dc:Bounds height="80.0" width="100.0" x="2880.0" y="380.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E56_4_StopAppTransferProcessing" id="BPMNShape_dc39b159-054c-4162-a3f2-a25f2c66acf2">
+        <dc:Bounds height="80.0" width="100.0" x="2880.0" y="580.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="E58_1_CheckingPrimaryDocuments" id="BPMNShape_42e4e3da-1b3e-408f-b1f6-07495796aaef">
+        <dc:Bounds height="80.0" width="100.0" x="3060.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="finish10" id="BPMNShape_f1050364-71d2-4d5a-acfb-7e94341beb52">
+        <dc:Bounds height="36.0" width="36.0" x="3010.0" y="400.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="finish11" id="BPMNShape_88e79ef6-cf19-48b8-917c-98480736e98a">
+        <dc:Bounds height="36.0" width="36.0" x="3010.0" y="800.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="start-E51_GetPayeeInfoByPhone" id="BPMNEdge_000c1b24-baef-4163-bc70-07880a811172">
+        <di:waypoint x="236.0" y="220.0"/>
+        <di:waypoint x="360.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E51_GetPayeeInfoByPhone-CreateC04Cancellation" id="BPMNEdge_d4f2b3de-f10f-4942-b6f2-7402f6e290d1">
+        <di:waypoint x="460.0" y="220.0"/>
+        <di:waypoint x="540.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E51_GetPayeeInfoByPhone-E52_VerifyingAmountLimit" id="BPMNEdge_27e7ad71-9d17-4274-b5fd-e8ebb0bcc7b7">
+        <di:waypoint x="460.0" y="220.0"/>
+        <di:waypoint x="540.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="CreateC04Cancellation-N61_1_ProcessingSendC04Result_parallel1" id="BPMNEdge_2a6094fe-3eb2-458e-85aa-7e30b189afcc">
+        <di:waypoint x="640.0" y="220.0"/>
+        <di:waypoint x="720.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N61_1_ProcessingSendC04Result_parallel1-E60__1_ProcessingSendC04Result" id="BPMNEdge_2e24d246-0d1e-46cf-88f4-58bc583d91b9">
+        <di:waypoint x="770.0" y="220.0"/>
+        <di:waypoint x="900.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N61_1_ProcessingSendC04Result_parallel1-E61_2_WaitingC23" id="BPMNEdge_03f92a79-7ef2-42b2-affb-4646f4b7f3b2">
+        <di:waypoint x="770.0" y="220.0"/>
+        <di:waypoint x="900.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E52_VerifyingAmountLimit-E52_1_VerifyingTransferByAML" id="BPMNEdge_f2a1261b-8359-4fd9-8bc4-96d1a61b41ba">
+        <di:waypoint x="640.0" y="420.0"/>
+        <di:waypoint x="720.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E52_VerifyingAmountLimit-E61_1_CreateC04Cancellation" id="BPMNEdge_6d943ea7-4a4b-4859-bb87-2c8626ba85e8">
+        <di:waypoint x="640.0" y="420.0"/>
+        <di:waypoint x="720.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E60__1_ProcessingSendC04Result-E65_GoToLastNode" id="BPMNEdge_3b5e4b99-b384-4318-b30a-eb22699e31fe">
+        <di:waypoint x="1000.0" y="220.0"/>
+        <di:waypoint x="1080.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_2_2_WaitingC23-E61_3_ProcessingC23SendC24" id="BPMNEdge_7bdb3616-7442-44fe-8fbd-c9f3df90191e">
+        <di:waypoint x="1720.0" y="620.0"/>
+        <di:waypoint x="1080.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_2_2_WaitingC23-E61_5_GoToNextNode" id="BPMNEdge_d48842e9-a9a4-429d-895f-9fb8437e3fb9">
+        <di:waypoint x="1720.0" y="620.0"/>
+        <di:waypoint x="1080.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_2_1_WaitingC23-E61_3_ProcessingC23SendC24" id="BPMNEdge_31240e24-7910-402f-808b-076b5c612520">
+        <di:waypoint x="1180.0" y="1220.0"/>
+        <di:waypoint x="1080.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_2_1_WaitingC23-E61_5_GoToNextNode" id="BPMNEdge_d38843ae-2805-42c9-9d3a-aab69a2cfa48">
+        <di:waypoint x="1180.0" y="1220.0"/>
+        <di:waypoint x="1080.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_2_WaitingC23-E61_3_ProcessingC23SendC24" id="BPMNEdge_ed2d7cb2-0923-4db0-82f3-de9729b0ab1b">
+        <di:waypoint x="1000.0" y="420.0"/>
+        <di:waypoint x="1080.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_2_WaitingC23-E61_5_GoToNextNode" id="BPMNEdge_014a8b6c-ae11-4d5a-97f3-fca5212e5525">
+        <di:waypoint x="1000.0" y="420.0"/>
+        <di:waypoint x="1080.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E52_1_VerifyingTransferByAML-E52_12_VerifyingTransferByAML" id="BPMNEdge_02d37b69-c72e-4a76-9fa4-87c96bd0c147">
+        <di:waypoint x="820.0" y="420.0"/>
+        <di:waypoint x="900.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E52_1_VerifyingTransferByAML-E52_3_VerifyingTransferByAMLResult" id="BPMNEdge_94bb66db-6060-4198-85bf-733396a30825">
+        <di:waypoint x="820.0" y="420.0"/>
+        <di:waypoint x="900.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_1_CreateC04Cancellation-N62_1_ProcessingSendC04Result_parallel2" id="BPMNEdge_167724f8-5f79-4629-a6a4-9f3f7f688738">
+        <di:waypoint x="820.0" y="620.0"/>
+        <di:waypoint x="900.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N62_1_ProcessingSendC04Result_parallel2-E61__1_ProcessingSendC04Result" id="BPMNEdge_5136a760-5b75-4b9c-838d-454399699edf">
+        <di:waypoint x="950.0" y="620.0"/>
+        <di:waypoint x="1080.0" y="1020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N62_1_ProcessingSendC04Result_parallel2-E61_2_1_WaitingC23" id="BPMNEdge_1c329f97-ce1b-46f8-9382-628e1e8e106c">
+        <di:waypoint x="950.0" y="620.0"/>
+        <di:waypoint x="1080.0" y="1220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_CreateC04Cancellation-N62_1_ProcessingSendC04Result_parallel3" id="BPMNEdge_065aec2b-120e-497d-9f1d-7e002e076660">
+        <di:waypoint x="1180.0" y="1020.0"/>
+        <di:waypoint x="1260.0" y="1220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N62_1_ProcessingSendC04Result_parallel3-E61__1_ProcessingSendC04Result" id="BPMNEdge_0ec1d94b-855d-4df8-b9e9-4a9e117c216c">
+        <di:waypoint x="1310.0" y="1220.0"/>
+        <di:waypoint x="1080.0" y="1020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N62_1_ProcessingSendC04Result_parallel3-E61_2_1_WaitingC23" id="BPMNEdge_e571e0d3-6750-437b-b6e3-9ea9c98d347c">
+        <di:waypoint x="1310.0" y="1220.0"/>
+        <di:waypoint x="1080.0" y="1220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E70_GoToLastNode-E72_GoToLastNode" id="BPMNEdge_dd0fff16-1051-4e78-a6b1-372fba735f4e">
+        <di:waypoint x="1360.0" y="1420.0"/>
+        <di:waypoint x="1260.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E65_GoToLastNode-E72_GoToLastNode" id="BPMNEdge_4e1ca22b-3d1e-4c2c-80ba-f829e3cca976">
+        <di:waypoint x="1180.0" y="220.0"/>
+        <di:waypoint x="1260.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_6_GoToNextNode-E72_GoToLastNode" id="BPMNEdge_29bc53d0-10ff-4cfd-b291-352c03eec442">
+        <di:waypoint x="1360.0" y="620.0"/>
+        <di:waypoint x="1260.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E71_GoToLastNode-E72_GoToLastNode" id="BPMNEdge_6732bb9d-10d9-4d88-8c10-14486299479b">
+        <di:waypoint x="2260.0" y="620.0"/>
+        <di:waypoint x="1260.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_3_ProcessingC23SendC24-E61_4_ProcessingSendC24Result" id="BPMNEdge_321cc55d-5ec8-4a3e-9d3b-213d00ed2c4c">
+        <di:waypoint x="1180.0" y="420.0"/>
+        <di:waypoint x="1260.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_4_ProcessingSendC24Result-E61_6_GoToNextNode" id="BPMNEdge_7fab583e-1df3-46ac-8d47-913c4c2231b0">
+        <di:waypoint x="1360.0" y="420.0"/>
+        <di:waypoint x="1260.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61_5_GoToNextNode-E61_6_GoToNextNode" id="BPMNEdge_ff0c6886-c263-4cd6-8b2b-f1c4fc76c5f0">
+        <di:waypoint x="1180.0" y="620.0"/>
+        <di:waypoint x="1260.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E52_12_VerifyingTransferByAML-E52_2_VerifyingTransferByAMLResult" id="BPMNEdge_4d37605a-6eba-4103-9598-9272496bed55">
+        <di:waypoint x="1000.0" y="420.0"/>
+        <di:waypoint x="1080.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E52_3_VerifyingTransferByAMLResult-E53_VerifyingTransferByAntiFraud" id="BPMNEdge_afb94b1a-7900-4783-8161-bff078f4c7c5">
+        <di:waypoint x="1000.0" y="620.0"/>
+        <di:waypoint x="1080.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E52_3_VerifyingTransferByAMLResult-E61_CreateC04Cancellation" id="BPMNEdge_69b5104d-dfe3-4a30-ad3d-6452a98d3e7c">
+        <di:waypoint x="1000.0" y="620.0"/>
+        <di:waypoint x="1080.0" y="1020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E52_2_VerifyingTransferByAMLResult-E53_VerifyingTransferByAntiFraud" id="BPMNEdge_f65b0f57-bcb7-49eb-b1ab-d06f807308db">
+        <di:waypoint x="1180.0" y="620.0"/>
+        <di:waypoint x="1080.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E52_2_VerifyingTransferByAMLResult-E61_CreateC04Cancellation" id="BPMNEdge_eb2c25d4-4c49-4a74-a3b7-8b51a57cba8b">
+        <di:waypoint x="1180.0" y="620.0"/>
+        <di:waypoint x="1080.0" y="1020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E62__1_ProcessingSendC04Result-E70_GoToLastNode" id="BPMNEdge_65f7140f-0334-434c-8133-f26a7648bea9">
+        <di:waypoint x="1720.0" y="820.0"/>
+        <di:waypoint x="1260.0" y="1420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E61__1_ProcessingSendC04Result-E70_GoToLastNode" id="BPMNEdge_f2b1ddfa-c39c-4cdf-9cf7-549a16843a72">
+        <di:waypoint x="1180.0" y="1020.0"/>
+        <di:waypoint x="1260.0" y="1420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E72_GoToLastNode-finish4" id="BPMNEdge_fcf41731-3e9c-4fdc-8dd7-2753afd51333">
+        <di:waypoint x="1360.0" y="220.0"/>
+        <di:waypoint x="1390.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E53_VerifyingTransferByAntiFraud-E54_CreateC04" id="BPMNEdge_17dffa2d-4412-44d4-bd30-67d11302a118">
+        <di:waypoint x="1180.0" y="820.0"/>
+        <di:waypoint x="1260.0" y="1020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E53_VerifyingTransferByAntiFraud-E62_CreateC04Cancellation" id="BPMNEdge_df17bd1b-ffa3-4ec4-ab1a-82a71f5eb042">
+        <di:waypoint x="1180.0" y="820.0"/>
+        <di:waypoint x="1260.0" y="1220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E54_CreateC04-E54__1_ProcessingSendC04Result" id="BPMNEdge_60c868a8-f333-4c7a-b483-44f5636a3292">
+        <di:waypoint x="1360.0" y="1020.0"/>
+        <di:waypoint x="1440.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E62_CreateC04Cancellation-N63_1_ProcessingSendC04Result_parallel5" id="BPMNEdge_c897cf60-acb0-4f8c-ba04-0d3a9b8b4aaa">
+        <di:waypoint x="1360.0" y="1220.0"/>
+        <di:waypoint x="1440.0" y="1020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N63_1_ProcessingSendC04Result_parallel5-E61_2_2_WaitingC23" id="BPMNEdge_a79f43bd-c579-48c3-a5b9-1f3212503380">
+        <di:waypoint x="1490.0" y="1020.0"/>
+        <di:waypoint x="1620.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N63_1_ProcessingSendC04Result_parallel5-E62__1_ProcessingSendC04Result" id="BPMNEdge_b7cce97c-20ca-4c7c-8d73-cc36fe258e18">
+        <di:waypoint x="1490.0" y="1020.0"/>
+        <di:waypoint x="1620.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E54__1_ProcessingSendC04Result-E55_3_ProcessingC23" id="BPMNEdge_19a49c95-fbfa-41ec-8c2c-1febe1f2f75d">
+        <di:waypoint x="1540.0" y="820.0"/>
+        <di:waypoint x="1620.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E54__1_ProcessingSendC04Result-E55_1_CreateC13" id="BPMNEdge_373ced21-dd24-4e6f-9b90-5c050debaf47">
+        <di:waypoint x="1540.0" y="820.0"/>
+        <di:waypoint x="1620.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E54__1_ProcessingSendC04Result-E57_2_GoToNextNode" id="BPMNEdge_53ccca9b-82b4-4dff-ac6a-b365634d03ba">
+        <di:waypoint x="1540.0" y="820.0"/>
+        <di:waypoint x="1620.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_3_ProcessingC23-E56_11_CheckCardOperation" id="BPMNEdge_fc85737d-2bf2-4270-b22f-3f99167ec65b">
+        <di:waypoint x="1720.0" y="420.0"/>
+        <di:waypoint x="1800.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_3_ProcessingC23-E63_CreateC24Cancellation" id="BPMNEdge_c0814bab-8e79-4833-af69-0dd4e96d6392">
+        <di:waypoint x="1720.0" y="420.0"/>
+        <di:waypoint x="1800.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_2_CreateC13-E55_5_GoToNextNode" id="BPMNEdge_d7058cc5-cc67-4438-8571-55ee8360cd36">
+        <di:waypoint x="2080.0" y="820.0"/>
+        <di:waypoint x="1800.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_2_CreateC13-E55_2_ProcessingSendC13Result" id="BPMNEdge_8e5617d1-dfff-4d3c-a970-207096e8d208">
+        <di:waypoint x="2080.0" y="820.0"/>
+        <di:waypoint x="1800.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_3_CreateC13-E55_5_GoToNextNode" id="BPMNEdge_f563d28e-fcff-49cf-87b7-d48f4477cf9a">
+        <di:waypoint x="2260.0" y="1420.0"/>
+        <di:waypoint x="1800.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_3_CreateC13-E55_2_ProcessingSendC13Result" id="BPMNEdge_015673ee-bc95-4e5b-bf0f-5406b23413a3">
+        <di:waypoint x="2260.0" y="1420.0"/>
+        <di:waypoint x="1800.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_1_CreateC13-E55_5_GoToNextNode" id="BPMNEdge_3708597f-004c-4795-a139-90f88add1fcc">
+        <di:waypoint x="1720.0" y="620.0"/>
+        <di:waypoint x="1800.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_1_CreateC13-E55_2_ProcessingSendC13Result" id="BPMNEdge_b112adfb-8e2d-412c-bf72-af13fcbb6454">
+        <di:waypoint x="1720.0" y="620.0"/>
+        <di:waypoint x="1800.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_2_GoToNextNode-N57_2_ReceivingMsgNSPKExecResult_parallel6" id="BPMNEdge_906d56f8-8905-4111-ae90-6efd02476cee">
+        <di:waypoint x="1720.0" y="820.0"/>
+        <di:waypoint x="1800.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_3_ProcessingC23SendC24" id="BPMNEdge_1379b366-eac7-4ab6-a2ca-6492cb24a683">
+        <di:waypoint x="1850.0" y="620.0"/>
+        <di:waypoint x="1980.0" y="1020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_5_GoToNextNode" id="BPMNEdge_1c80505c-883d-4ede-b7c0-bfc6975ab416">
+        <di:waypoint x="1850.0" y="620.0"/>
+        <di:waypoint x="1980.0" y="1220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N57_2_ReceivingMsgNSPKExecResult_parallel6-E57_31_ProcessingC23" id="BPMNEdge_7b1ff310-c0c2-4d61-ae1d-b792fbfa50d7">
+        <di:waypoint x="1850.0" y="620.0"/>
+        <di:waypoint x="1980.0" y="1420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_11_CheckCardOperation-E56_AccountCredited" id="BPMNEdge_b5a59ae1-2378-4bb1-b280-ed9de0363779">
+        <di:waypoint x="1900.0" y="220.0"/>
+        <di:waypoint x="1980.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_11_CheckCardOperation-E56_12_CardOperationRequest" id="BPMNEdge_8e2772bf-c98f-450d-81e5-9983447044bd">
+        <di:waypoint x="1900.0" y="220.0"/>
+        <di:waypoint x="1980.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E63_CreateC24Cancellation-E63__1_ProcessingSendC24Result" id="BPMNEdge_9304ef1d-1817-4f8a-a151-5feabc9d987f">
+        <di:waypoint x="1900.0" y="420.0"/>
+        <di:waypoint x="1980.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_6_GoToNextNode-E59_0_GoToNextNode" id="BPMNEdge_43db45a6-dfe8-4cf6-9220-15c72e319310">
+        <di:waypoint x="2260.0" y="1620.0"/>
+        <di:waypoint x="1980.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E63_3_GoToNextNode-E59_0_GoToNextNode" id="BPMNEdge_e759b467-079e-4f64-9ce7-9b50229087c8">
+        <di:waypoint x="2440.0" y="1420.0"/>
+        <di:waypoint x="1980.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_5_GoToNextNode-E59_0_GoToNextNode" id="BPMNEdge_2635c5df-d159-4a75-8726-44b120771c2c">
+        <di:waypoint x="1900.0" y="420.0"/>
+        <di:waypoint x="1980.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_4_GoToNextNode-E59_0_GoToNextNode" id="BPMNEdge_c34c1e04-bab7-44ad-9ab7-31b40f58aa2e">
+        <di:waypoint x="2980.0" y="420.0"/>
+        <di:waypoint x="1980.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_34_GoToNextNode-E59_0_GoToNextNode" id="BPMNEdge_9b6d1d9f-3dc3-4ebe-a4a8-490980243a00">
+        <di:waypoint x="2800.0" y="1220.0"/>
+        <di:waypoint x="1980.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_2_ProcessingSendC13Result-E55_2_CreateC13" id="BPMNEdge_56f6041c-6999-49c3-863c-68ea71c467cd">
+        <di:waypoint x="1900.0" y="620.0"/>
+        <di:waypoint x="1980.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_2_ProcessingSendC13Result-E55_3_Processing_C14" id="BPMNEdge_14184fc2-8ffa-495e-8551-1b892b610f84">
+        <di:waypoint x="1900.0" y="620.0"/>
+        <di:waypoint x="1980.0" y="1020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_3_ProcessingC23SendC24-E57_4_ProcessingSendC24Result" id="BPMNEdge_ba8ccbf9-8769-4fcb-a70d-96e05c7fbb23">
+        <di:waypoint x="2080.0" y="1020.0"/>
+        <di:waypoint x="2160.0" y="1420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_3_CreateC24-E57_4_ProcessingSendC24Result" id="BPMNEdge_5fd6ffed-253b-414c-a464-48382c03d053">
+        <di:waypoint x="2440.0" y="2220.0"/>
+        <di:waypoint x="2160.0" y="1420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_4_ProcessingSendC24Result-E57_6_GoToNextNode" id="BPMNEdge_e15f33a5-129e-4a75-ae92-1ccfe00fef6b">
+        <di:waypoint x="2260.0" y="1420.0"/>
+        <di:waypoint x="2160.0" y="1620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_5_GoToNextNode-E57_6_GoToNextNode" id="BPMNEdge_9f54f5c9-3654-447e-a6f1-663993a5d6e0">
+        <di:waypoint x="2080.0" y="1220.0"/>
+        <di:waypoint x="2160.0" y="1620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_31_ProcessingC23-N57_5_ReceivedMsgC14_parallel7" id="BPMNEdge_7b49c753-d462-4307-8c2a-0c95658a68fd">
+        <di:waypoint x="2080.0" y="1420.0"/>
+        <di:waypoint x="2160.0" y="1820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N57_5_ReceivedMsgC14_parallel7-E57_32_NeedAccountCrediting" id="BPMNEdge_044d324e-c1d6-41aa-9113-25761f7f2087">
+        <di:waypoint x="2210.0" y="1820.0"/>
+        <di:waypoint x="2340.0" y="2020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N57_5_ReceivedMsgC14_parallel7-E57_3_CreateC24" id="BPMNEdge_54454087-a482-4ad0-876e-555cd5a81596">
+        <di:waypoint x="2210.0" y="1820.0"/>
+        <di:waypoint x="2340.0" y="2220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N57_5_ReceivedMsgC14_parallel7-E57_35_GoToNextNode" id="BPMNEdge_48d46e12-e5f9-428a-8a48-f7fe4fd4b6a7">
+        <di:waypoint x="2210.0" y="1820.0"/>
+        <di:waypoint x="2340.0" y="2420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_AccountCredited-E57_CreateC24" id="BPMNEdge_5bbd2135-380f-4965-87b2-86ab4aec9702">
+        <di:waypoint x="2080.0" y="220.0"/>
+        <di:waypoint x="2160.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_13_CardOperationResult-E57_CreateC24" id="BPMNEdge_8a54f840-e1e1-4f2a-8f35-ec4b54e5d1d2">
+        <di:waypoint x="2260.0" y="420.0"/>
+        <di:waypoint x="2160.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_12_CardOperationRequest-E56_13_CardOperationResult" id="BPMNEdge_f8d93d08-8e3e-4006-940b-0f3bd850a726">
+        <di:waypoint x="2080.0" y="420.0"/>
+        <di:waypoint x="2160.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E63__1_ProcessingSendC24Result-E71_GoToLastNode" id="BPMNEdge_689d9474-6696-4382-b6a0-87ac7bad47f1">
+        <di:waypoint x="2080.0" y="420.0"/>
+        <di:waypoint x="2160.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E59_0_GoToNextNode-E59_GoToNextNode" id="BPMNEdge_022884ed-e513-4ad6-a611-f45642c30a5e">
+        <di:waypoint x="2080.0" y="620.0"/>
+        <di:waypoint x="2160.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E58_1_CheckingPrimaryDocuments-E59_GoToNextNode" id="BPMNEdge_6a533864-e5c1-4cd6-86c2-de5300cf52ff">
+        <di:waypoint x="3160.0" y="220.0"/>
+        <di:waypoint x="2160.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_3_Processing_C14-E56_11_2_CheckCardOperation" id="BPMNEdge_7fc0681a-fe46-46d1-8128-34eb9db12e4b">
+        <di:waypoint x="2080.0" y="1020.0"/>
+        <di:waypoint x="2160.0" y="1220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_3_Processing_C14-E55_3_CreateC13" id="BPMNEdge_4750fd8b-105b-40fa-a3c5-d83355bf4ccf">
+        <di:waypoint x="2080.0" y="1020.0"/>
+        <di:waypoint x="2160.0" y="1420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_3_Processing_C14-E63_2_AppTransferCancellation" id="BPMNEdge_c7bd1d5e-546a-4fd7-86ea-310f144043e8">
+        <di:waypoint x="2080.0" y="1020.0"/>
+        <di:waypoint x="2160.0" y="1620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_32_NeedAccountCrediting-N57_6_NeedAccountCrediting_parallel8" id="BPMNEdge_e1fc5244-88c4-486a-8b44-c4c8df309fda">
+        <di:waypoint x="2440.0" y="2020.0"/>
+        <di:waypoint x="2520.0" y="1220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N57_6_NeedAccountCrediting_parallel8-E56_11_3_CheckCardOperation" id="BPMNEdge_edcc01fc-87ba-423f-99c4-ff624ad34bac">
+        <di:waypoint x="2570.0" y="1220.0"/>
+        <di:waypoint x="2700.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N57_6_NeedAccountCrediting_parallel8-E57_33_GoToNextNode" id="BPMNEdge_5576aad6-945f-459e-9f6b-fa5cf34e3552">
+        <di:waypoint x="2570.0" y="1220.0"/>
+        <di:waypoint x="2700.0" y="1020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="N57_6_NeedAccountCrediting_parallel8-E57_34_GoToNextNode" id="BPMNEdge_d70c20a4-c03c-491c-9a7e-8e056fe797c7">
+        <di:waypoint x="2570.0" y="1220.0"/>
+        <di:waypoint x="2700.0" y="1220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E63_2_AppTransferCancellation-E63_3_GoToNextNode" id="BPMNEdge_c0633f50-9d52-48b3-a2cd-17dd77c639e6">
+        <di:waypoint x="2260.0" y="1620.0"/>
+        <di:waypoint x="2340.0" y="1420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_35_GoToNextNode-E63_3_GoToNextNode" id="BPMNEdge_1de034b5-0fcb-416c-8157-c9e1e2d830d7">
+        <di:waypoint x="2440.0" y="2420.0"/>
+        <di:waypoint x="2340.0" y="1420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_CreateC24-E57_1_ProcessingSendC24Result" id="BPMNEdge_13afef5e-a713-467d-9893-3c3c665a08bd">
+        <di:waypoint x="2260.0" y="220.0"/>
+        <di:waypoint x="2340.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E59_GoToNextNode-finish9" id="BPMNEdge_10456ba2-4e7b-440c-9a2b-56b84aed6baf">
+        <di:waypoint x="2260.0" y="820.0"/>
+        <di:waypoint x="2290.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_11_2_CheckCardOperation-E55_4_AccountCredited" id="BPMNEdge_b1a2d669-8927-4d17-aee0-3270fb8b17c4">
+        <di:waypoint x="2260.0" y="1220.0"/>
+        <di:waypoint x="2340.0" y="1020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_11_2_CheckCardOperation-E56_12_2_CardOperationRequest" id="BPMNEdge_45806ca2-ea71-42c1-a620-a7a9992882bf">
+        <di:waypoint x="2260.0" y="1220.0"/>
+        <di:waypoint x="2340.0" y="1220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_11_3_CheckCardOperation-E55_4_AccountCredited" id="BPMNEdge_946510d8-a496-4353-85d9-91caca95828d">
+        <di:waypoint x="2800.0" y="820.0"/>
+        <di:waypoint x="2340.0" y="1020.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_11_3_CheckCardOperation-E56_12_2_CardOperationRequest" id="BPMNEdge_3292c8f6-44ba-491f-b3a2-7d24628ed468">
+        <di:waypoint x="2800.0" y="820.0"/>
+        <di:waypoint x="2340.0" y="1220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E55_4_AccountCredited-E56_2_ReceivedAccountCreditedResult" id="BPMNEdge_245f24cb-c98d-4804-a714-c5197d3aa681">
+        <di:waypoint x="2440.0" y="1020.0"/>
+        <di:waypoint x="2520.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_33_GoToNextNode-E56_2_ReceivedAccountCreditedResult" id="BPMNEdge_4e81e581-57ba-4a75-9ae7-2f2eb8a022a6">
+        <di:waypoint x="2800.0" y="1020.0"/>
+        <di:waypoint x="2520.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_13_2_CardOperationResult-E56_2_ReceivedAccountCreditedResult" id="BPMNEdge_37506963-7bbf-4eca-8e3a-7be89625b70e">
+        <di:waypoint x="2620.0" y="820.0"/>
+        <di:waypoint x="2520.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_1_ProcessingSendC24Result-E57_20_IncompleteDocExecute" id="BPMNEdge_f13d2c98-8639-4750-8bec-b02ad8b63182">
+        <di:waypoint x="2440.0" y="220.0"/>
+        <di:waypoint x="2520.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_12_2_CardOperationRequest-E56_13_2_CardOperationResult" id="BPMNEdge_b67ce9f6-4621-400f-99d8-70cd0348838b">
+        <di:waypoint x="2440.0" y="1220.0"/>
+        <di:waypoint x="2520.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_2_ReceivedAccountCreditedResult-E56_3_AccountCreditedResult" id="BPMNEdge_a2e8732e-0890-4137-98bd-2710db208a40">
+        <di:waypoint x="2620.0" y="620.0"/>
+        <di:waypoint x="2700.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E57_20_IncompleteDocExecute-E58_0_CheckingHoldDocumentCreation" id="BPMNEdge_40ac4b06-d003-45cf-906e-bb57096c0d96">
+        <di:waypoint x="2620.0" y="220.0"/>
+        <di:waypoint x="2700.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_3_AccountCreditedResult-E56_4_GoToNextNode" id="BPMNEdge_b3caa05b-5a03-4086-bb9e-0642fe158c10">
+        <di:waypoint x="2800.0" y="420.0"/>
+        <di:waypoint x="2880.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_3_AccountCreditedResult-E56_4_StopAppTransferProcessing" id="BPMNEdge_c8013a8e-4dd6-4954-9f8f-e3bbd4162d08">
+        <di:waypoint x="2800.0" y="420.0"/>
+        <di:waypoint x="2880.0" y="620.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E58_0_CheckingHoldDocumentCreation-E58_CheckingPrimaryDocuments" id="BPMNEdge_133570be-1b05-47f6-a638-dc1ddcaa71f0">
+        <di:waypoint x="2800.0" y="220.0"/>
+        <di:waypoint x="2880.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E58_0_CheckingHoldDocumentCreation-E64_StopAppTransferProcessing" id="BPMNEdge_83a2dddf-7b31-4cdf-b547-c1f40833bf58">
+        <di:waypoint x="2800.0" y="220.0"/>
+        <di:waypoint x="2880.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E64_StopAppTransferProcessing-finish10" id="BPMNEdge_eaf21b21-a717-40eb-9ba0-37c3d8c426b8">
+        <di:waypoint x="2980.0" y="420.0"/>
+        <di:waypoint x="3010.0" y="420.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E56_4_StopAppTransferProcessing-finish11" id="BPMNEdge_e937fc8a-7d11-453c-813d-9a107ad40cec">
+        <di:waypoint x="2980.0" y="620.0"/>
+        <di:waypoint x="3010.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="E58_CheckingPrimaryDocuments-E58_1_CheckingPrimaryDocuments" id="BPMNEdge_4cb2901c-62dd-4657-a89a-f18cf52421d2">
+        <di:waypoint x="2980.0" y="220.0"/>
+        <di:waypoint x="3060.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

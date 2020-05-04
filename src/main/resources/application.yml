@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: bpmnLayoutElk
+  datasource:
+    driver-class-name: org.h2.Driver #org.postgresql.Driver. org.hsqldb.jdbcDriver
+    url: jdbc:h2:mem:testdb #jdbc:postgresql://rkokibana:5432/dqfpscore. jdbc:hsqldb:mem:test;shutdown=false
+    #username: SA 
+    #password: 
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+      generate-ddl: false
+  liquibase:
+    change-log: classpath:rootChangeLog.xml
+    enabled: false
